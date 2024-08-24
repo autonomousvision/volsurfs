@@ -6,10 +6,11 @@
         content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
   <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- Global site tag (gtag.js) - Google Analytics
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  -->
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -88,10 +89,11 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title">Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="https://s-esposito.github.io">Stefano Esposito</a><sup>1</sup>,</span>
+            <!--
             <span class="author-block">
               <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
             <span class="author-block">
@@ -109,18 +111,19 @@
             <span class="author-block">
               <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
             </span>
+            -->
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block"><sup>1</sup>University of Tuebingen,</span>
+            <span class="author-block"><sup>2</sup>Meta</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/pdf/2011.12948"
+                <a href="#"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -129,7 +132,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
+                <a href="#"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -139,7 +142,7 @@
               </span>
               <!-- Video Link. -->
               <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                <a href="#"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
@@ -149,7 +152,7 @@
               </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/google/nerfies"
+                <a href="#"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -159,7 +162,7 @@
               </span>
               <!-- Dataset Link. -->
               <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                <a href="#"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="far fa-images"></i>
@@ -178,20 +181,24 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
+      <!-- 
       <video id="teaser" autoplay muted loop playsinline height="100%">
         <source src="./static/videos/teaser.mp4"
                 type="video/mp4">
       </video>
+      -->
+      <img src="./static/images/teaser.jpg" alt="volsurfs teaser image."/>
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
+        Our <span class="dnerf">Volumetric Surfaces</span> representation (\emph{b}) consists of $k$ lightweight, semi-transparent mesh shells that efficiently render fuzzy geometries with a limited number of samples $(3 \!\leq\! k \!\leq\! 9)$ via rasterization.
+        Our image quality surpasses that of surface-based methods (\emph{a}) and approaches the quality of 3D Gaussian splatting (\emph{c}).
+        Unlike splatting methods, our sorting-free representation enables faster rendering, particularly on low-end or mobile graphics hardware.
       </h2>
     </div>
   </div>
 </section>
 
 
+<!-- 
 <section class="hero is-light is-small">
   <div class="hero-body">
     <div class="container">
@@ -248,11 +255,11 @@
     </div>
   </div>
 </section>
-
+-->
 
 <section class="section">
   <div class="container is-max-desktop">
-    <!-- Abstract. -->
+    <!-- Abstract. 
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
@@ -287,9 +294,9 @@
         </div>
       </div>
     </div>
-    <!--/ Abstract. -->
+    -->
 
-    <!-- Paper video. -->
+    <!-- Paper video
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Video</h2>
@@ -299,7 +306,7 @@
         </div>
       </div>
     </div>
-    <!--/ Paper video. -->
+    -->
   </div>
 </section>
 
@@ -309,7 +316,7 @@
 
     <div class="columns is-centered">
 
-      <!-- Visual Effects. -->
+      <!-- Visual Effects
       <div class="column">
         <div class="content">
           <h2 class="title is-3">Visual Effects</h2>
@@ -323,9 +330,9 @@
           </video>
         </div>
       </div>
-      <!--/ Visual Effects. -->
+      -->
 
-      <!-- Matting. -->
+      <!-- Matting
       <div class="column">
         <h2 class="title is-3">Matting</h2>
         <div class="columns is-centered">
@@ -343,14 +350,14 @@
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
+    -->
 
-    <!-- Animation. -->
+    <!-- Animation -->
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Animation</h2>
 
-        <!-- Interpolating. -->
+        <!-- Interpolating
         <h3 class="title is-4">Interpolating states</h3>
         <div class="content has-text-justified">
           <p>
@@ -382,9 +389,9 @@
           </div>
         </div>
         <br/>
-        <!--/ Interpolating. -->
+        -->
 
-        <!-- Re-rendering. -->
+        <!-- Re-rendering
         <h3 class="title is-4">Re-rendering the input video</h3>
         <div class="content has-text-justified">
           <p>
@@ -403,14 +410,14 @@
                     type="video/mp4">
           </video>
         </div>
-        <!--/ Re-rendering. -->
+        -->
 
       </div>
     </div>
-    <!--/ Animation. -->
+    <!--/ Animation -->
 
 
-    <!-- Concurrent Work. -->
+    <!-- Concurrent Work
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Related Links</h2>
@@ -435,7 +442,7 @@
         </div>
       </div>
     </div>
-    <!--/ Concurrent Work. -->
+    -->
 
   </div>
 </section>
@@ -444,7 +451,7 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
+    <pre><code>@article{esposito2024volsurfs,
   author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
   title     = {Nerfies: Deformable Neural Radiance Fields},
   journal   = {ICCV},
