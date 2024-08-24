@@ -23,6 +23,13 @@
     gtag('config', 'G-PYVRSFMDRL');
   </script>
 
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
 
@@ -51,6 +58,8 @@
       <span aria-hidden="true"></span>
     </a>
   </div>
+
+  <!-- Navbar
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
       <a class="navbar-item" href="https://keunhong.com">
@@ -79,6 +88,7 @@
         </div>
       </div>
     </div>
+  -->
 
   </div>
 </nav>
@@ -93,25 +103,29 @@
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://s-esposito.github.io">Stefano Esposito</a><sup>1</sup>,</span>
-            <!--
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+              <a href="#">Anpei Chen</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+              <a href="#">Christian Reiser</a><sup>1</sup>,
             </span>
             <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+              <a href="#">Samuel Rota Bulò</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+              <a href="#">Katja Schwarz</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
+              <a href="#">Christian Richardt</a><sup>2</sup>,
             </span>
             <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+              <a href="#">Michael Zollhoefer</a><sup>2</sup>
             </span>
-            -->
+            <span class="author-block">
+              <a href="#">Peter Kontschieder</a><sup>2</sup>
+            </span>
+            <span class="author-block">
+              <a href="#">Andreas Geiger</a><sup>1</sup>
+            </span>
           </div>
 
           <div class="is-size-5 publication-authors">
@@ -187,10 +201,10 @@
                 type="video/mp4">
       </video>
       -->
-      <img src="./static/images/teaser.jpg" alt="volsurfs teaser image."/>
+      <img src="./static/images/teaser.png" alt="volsurfs teaser image."/>
       <h2 class="subtitle has-text-centered">
-        Our <span class="dnerf">Volumetric Surfaces</span> representation (\emph{b}) consists of $k$ lightweight, semi-transparent mesh shells that efficiently render fuzzy geometries with a limited number of samples $(3 \!\leq\! k \!\leq\! 9)$ via rasterization.
-        Our image quality surpasses that of surface-based methods (\emph{a}) and approaches the quality of 3D Gaussian splatting (\emph{c}).
+        Our <span class="dnerf">Volumetric Surfaces</span> representation ($k$) consists of $k$ lightweight, semi-transparent mesh shells that efficiently render fuzzy geometries with a limited number of samples $(3 \!\leq\! k \!\leq\! 9)$ via rasterization.
+        Our image quality surpasses that of surface-based methods ($a$) and approaches the quality of 3D Gaussian splatting ($c$).
         Unlike splatting methods, our sorting-free representation enables faster rendering, particularly on low-end or mobile graphics hardware.
       </h2>
     </div>
@@ -352,10 +366,11 @@
     </div>
     -->
 
-    <!-- Animation -->
+    <!-- Animation 
     <div class="columns is-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Animation</h2>
+    -->
 
         <!-- Interpolating
         <h3 class="title is-4">Interpolating states</h3>
@@ -369,8 +384,8 @@
         <div class="columns is-vcentered interpolation-panel">
           <div class="column is-3 has-text-centered">
             <img src="./static/images/interpolate_start.jpg"
-                 class="interpolation-image"
-                 alt="Interpolate start reference image."/>
+                class="interpolation-image"
+                alt="Interpolate start reference image."/>
             <p>Start Frame</p>
           </div>
           <div class="column interpolation-video-column">
@@ -378,13 +393,13 @@
               Loading...
             </div>
             <input class="slider is-fullwidth is-large is-info"
-                   id="interpolation-slider"
-                   step="1" min="0" max="100" value="0" type="range">
+                  id="interpolation-slider"
+                  step="1" min="0" max="100" value="0" type="range">
           </div>
           <div class="column is-3 has-text-centered">
             <img src="./static/images/interpolate_end.jpg"
-                 class="interpolation-image"
-                 alt="Interpolation end reference image."/>
+                class="interpolation-image"
+                alt="Interpolation end reference image."/>
             <p class="is-bold">End Frame</p>
           </div>
         </div>
@@ -401,20 +416,21 @@
         </div>
         <div class="content has-text-centered">
           <video id="replay-video"
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
+                controls
+                muted
+                preload
+                playsinline
+                width="75%">
             <source src="./static/videos/replay.mp4"
                     type="video/mp4">
           </video>
         </div>
         -->
-
+  
+  <!--
       </div>
     </div>
-    <!--/ Animation -->
+  -->
 
 
     <!-- Concurrent Work
@@ -452,10 +468,10 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@article{esposito2024volsurfs,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
+  author    = {Esposito, Stefano and Chen, Anpei and Reiser, Christian and Rota Bulò, Samuel and Schwarz, Katja and Richardt, Christian and Zollhoefer, Michael and Kontschieder, Peter and Geiger, Andreas},
+  title     = {Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes},
+  journal   = {ArXiv},
+  year      = {2024},
 }</code></pre>
   </div>
 </section>
@@ -463,15 +479,17 @@
 
 <footer class="footer">
   <div class="container">
+    <!--
     <div class="content has-text-centered">
       <a class="icon-link"
-         href="./static/videos/nerfies_paper.pdf">
+        href="./static/videos/nerfies_paper.pdf">
         <i class="fas fa-file-pdf"></i>
       </a>
       <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
         <i class="fab fa-github"></i>
       </a>
     </div>
+    -->
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
@@ -481,11 +499,7 @@
             Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
           <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
+            The website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
           </p>
         </div>
       </div>
