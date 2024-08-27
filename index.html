@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="description"
         content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="keywords" content="novel view synthesis, real time, fuzzy surfaces">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   <title>Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics
@@ -49,6 +50,7 @@
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
+  
 </head>
 <body>
 
@@ -218,9 +220,7 @@
       -->
       <img src="./static/images/teaser.png" alt="volsurfs teaser image."/>
       <h2 class="subtitle has-text-centered">
-        Our <b>Volumetric Surfaces</b> representation ($k$) consists of $k$ lightweight, semi-transparent mesh shells that efficiently render fuzzy geometries with a limited number of samples $(3 \!\leq\! k \!\leq\! 9)$ via rasterization.
-        Our image quality surpasses that of surface-based methods ($a$) and approaches the quality of 3D Gaussian splatting ($c$).
-        Unlike splatting methods, our sorting-free representation enables faster rendering, particularly on low-end or mobile graphics hardware.
+        We employ semi-transparent mesh shells to efficiently render fuzzy geometries, with higher image quality than surface-based methods and approaching 3DGS while rendering faster, particularly on low-end or mobile hardware.
       </h2>
     </div>
   </div>
