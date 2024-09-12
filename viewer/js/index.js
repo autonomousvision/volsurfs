@@ -1,8 +1,8 @@
 // import _, { map, reject } from '../node_modules/lodash/lodash.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import Stats from 'stats.js';
-import * as dat from 'dat.gui';
+// import Stats from 'stats.js';
+// import * as dat from 'dat.gui';
 import { loadShader } from './utils/shaderUtils.js';
 import { loadCameras } from './utils/camerasUtils.js';
 import { captureScreenshot } from './utils/screenshotUtils.js';
