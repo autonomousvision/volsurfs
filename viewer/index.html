@@ -18,6 +18,10 @@
     <script src="./deps/png.js"></script>
     <!-- zlib -->
     <script src="./deps/zlib.js"></script>
+    <!-- stats -->
+    <script src="./public/stats.js/build/stats.min.js"></script>
+    <!-- dat.gui -->
+    <script src="./public/dat.gui/build/dat.gui.min.js"></script>
     <script>
         function scene_selection(scene_name, nr_surfs) {
             console.log(scene_name + "_" + nr_surfs + " selected");
@@ -32,21 +36,20 @@
             window.open(url, '_self');
         }
     </script>
-    <!--
     <script type="importmap">
         {
             "imports": {
-                "three": "./public/three/build/three.module.js",
-                "controls": "./public/three/examples/jsm/controls",
-                "loaders": "./public/three/examples/jsm/loaders"
+                "three": "../public/three/build/three.module.js",
+                "three/addons/": "./jsm/",
+                "stats.js": "../public/stats.js/build/stats.min.js",
+                "dat.gui": "../public/dat.gui/build/dat.gui.min.js",
             }
         }
 	</script>
-    -->
-    <!-- include main.js -->
-    <script type="module" src="./js/index.js"></script>
     <!-- Bootstrap stuff -->
     <script src="./public/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- include main.js -->
+    <script type="module" src="./js/index.js"></script>
 </head>
 
 <body>

@@ -1,7 +1,6 @@
-import * as THREE from './public/three/build/three.module.js';
-import { OBJLoader } from './public/three/examples/jsm/loaders/OBJLoader.js';
+import * as THREE from 'three';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { loadShader } from './shaderUtils.js';
-import { toHalf } from './float16Utils.js';
 
 let nrMeshesToLoad = 0;
 let meshesLoadingProgress = [];
