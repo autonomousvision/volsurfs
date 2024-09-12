@@ -50,9 +50,7 @@ const texturesMode = textures_mode;
 const sceneDir = sceneName + "_" + nrMeshes + "_" + texturesMode + "_" + shDeg + "_deg";
 console.log('sceneDir:', sceneDir);
 
-
-
-const sceneDirPath =  'assets/scenes/' + scene_name + '/' + sceneDir + '/';
+const sceneDirPath =  './assets/scenes/' + scene_name + '/' + sceneDir + '/';
 
 let canvasContainer, canvasElement, statsElement, guiElement, loadingScreen;
 let activeCamera, renderer, controls, stats;
@@ -498,8 +496,8 @@ async function initDebugScene() {
 
     // uvs shader texture
     const textureLoader = new THREE.TextureLoader();
-    const uvsTexturePath = 'assets/debug/textures/rgb.png';
-    // const uvsTexturePath = 'assets/debug/textures/blue.png';
+    const uvsTexturePath = './assets/debug/textures/rgb.png';
+    // const uvsTexturePath = './assets/debug/textures/blue.png';
     textureLoader.load(uvsTexturePath,
             function (texture) {
                 console.log('texture ' + uvsTexturePath + ' loaded');
