@@ -1,8 +1,8 @@
-import _, { map, reject } from 'lodash';
+import _, { map, reject } from '../node_modules/lodash';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import Stats from 'stats.js'
-import * as dat from 'dat.gui';
+import Stats from '../node_modules/stats.js'
+import * as dat from '../node_modules/dat.gui';
 import { loadShader } from './utils/shaderUtils.js';
 import { loadCameras } from './utils/camerasUtils.js';
 import { captureScreenshot } from './utils/screenshotUtils.js';
@@ -50,7 +50,8 @@ const texturesMode = textures_mode;
 const sceneDir = sceneName + "_" + nrMeshes + "_" + texturesMode + "_" + shDeg + "_deg";
 console.log('sceneDir:', sceneDir);
 
-const sceneDirPath =  './assets/scenes/' + scene_name + '/' + sceneDir + '/';
+const cloudStorageUrl = 'https://storage.googleapis.com/volsurfs_scenes';
+const sceneDirPath =  cloudStorageUrl + '/' + scene_name + '/' + sceneDir + '/';
 
 let canvasContainer, canvasElement, statsElement, guiElement, loadingScreen;
 let activeCamera, renderer, controls, stats;
@@ -835,6 +836,19 @@ async function init() {
 function loadScene(sceneDirPath) {
     
     return new Promise((resolve, reject) => {
+
+        console.log('sceneDirPath:', sceneDirPath);
+
+        // list all files in the scene directory
+        $.ajax({
+            url: sceneDirPath,
+            success: function (data) {
+                $(data).find("a").each(function (index, value) {
+                    let file = $(value).attr("href");
+                    console.log(file);
+                });
+            }
+        });
 
         // Load scene configuration
         const sceneJsonPath = sceneDirPath + 'scene.json';
