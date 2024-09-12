@@ -331,8 +331,8 @@ function initPost() {
         postCamera = new THREE.OrthographicCamera(- 1, 1, 1, - 1, 0, 1);
         
         // load shaders
-        const vertexShaderPromise = loadShader('shaders/vertexShader.glsl');
-        const fragmentShaderPromise = loadShader('shaders/finalFrameFragmentShader.glsl');
+        const vertexShaderPromise = loadShader('./shaders/vertexShader.glsl');
+        const fragmentShaderPromise = loadShader('./shaders/finalFrameFragmentShader.glsl');
         
         // wait for shaders to load first
         const shadersPromise = Promise.all([vertexShaderPromise, fragmentShaderPromise]);
@@ -480,9 +480,9 @@ async function initDebugScene() {
     sceneDebug = new THREE.Scene();
     sceneDebug.background = new THREE.Color(0x1C2B33);
 
-    const vertexShader = await loadShader('shaders/vertexShader.glsl');
-    const rgbTextureFragmentShader = await loadShader('shaders/rgbTextureFragmentShader.glsl');
-    const uvsFragmentShader = await loadShader('shaders/UVsFragmentShader.glsl');
+    const vertexShader = await loadShader('./shaders/vertexShader.glsl');
+    const rgbTextureFragmentShader = await loadShader('./shaders/rgbTextureFragmentShader.glsl');
+    const uvsFragmentShader = await loadShader('./shaders/UVsFragmentShader.glsl');
 
     shadersMaterials['uvs'] = new THREE.ShaderMaterial({
         uniforms: {
@@ -505,19 +505,19 @@ async function initDebugScene() {
             }
     );
 
-    const normalsFragmentShader = await loadShader('shaders/normalsFragmentShader.glsl');
+    const normalsFragmentShader = await loadShader('./shaders/normalsFragmentShader.glsl');
     shadersMaterials['normals'] = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: normalsFragmentShader,
     });
 
-    const viewDirsFragmentShader = await loadShader('shaders/viewDirsFragmentShader.glsl');
+    const viewDirsFragmentShader = await loadShader('./shaders/viewDirsFragmentShader.glsl');
     shadersMaterials['view_dirs'] = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: viewDirsFragmentShader,
     });
 
-    const grazingAnglesFragmentShader = await loadShader('shaders/grazingAnglesFragmentShader.glsl');
+    const grazingAnglesFragmentShader = await loadShader('./shaders/grazingAnglesFragmentShader.glsl');
     shadersMaterials['grazing_angles'] = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
         fragmentShader: grazingAnglesFragmentShader,

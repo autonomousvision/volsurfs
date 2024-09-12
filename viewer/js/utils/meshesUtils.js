@@ -148,23 +148,23 @@ function loadMeshes(sceneCfg, scenesMeshes, sceneWireframe, sceneDebug, shadersM
     return new Promise((resolve, reject) => {
 
         // load shaders
-        const vertexShaderPromise = loadShader('shaders/vertexShader.glsl');
+        const vertexShaderPromise = loadShader('./shaders/vertexShader.glsl');
         let fragmentShaderPromise;
         switch (rendererCfg.shDeg) {
             case 0:
-                fragmentShaderPromise = loadShader('shaders/sh0FragmentShader.glsl');
+                fragmentShaderPromise = loadShader('./shaders/sh0FragmentShader.glsl');
                 console.log('sh0FragmentShader');
                 break;
             case 1:
-                fragmentShaderPromise = loadShader('shaders/sh1FragmentShader.glsl');
+                fragmentShaderPromise = loadShader('./shaders/sh1FragmentShader.glsl');
                 console.log('sh1FragmentShader');
                 break;
             case 2: 
-                fragmentShaderPromise = loadShader('shaders/sh2FragmentShader.glsl');
+                fragmentShaderPromise = loadShader('./shaders/sh2FragmentShader.glsl');
                 console.log('sh2FragmentShader');
                 break;
             case 3:
-                fragmentShaderPromise = loadShader('shaders/sh3FragmentShader.glsl');
+                fragmentShaderPromise = loadShader('./shaders/sh3FragmentShader.glsl');
                 console.log('sh3FragmentShader');
                 break;
         }
