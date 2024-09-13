@@ -1,462 +1,536 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <title>volsurfs webgl viewer</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Stefano Esposito">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <!-- include style.css -->
-    <link type="text/css" rel="stylesheet" href="./style.css">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Add icon library 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <!-- jQuery -->
-    <script src="./deps/jquery-3.7.1.js"></script>
-    <!-- PNG -->
-    <script src="./deps/png.js"></script>
-    <!-- zlib -->
-    <script src="./deps/zlib.js"></script>
-    <script>
-        function scene_selection(scene_name, nr_surfs) {
-            console.log(scene_name + "_" + nr_surfs + " selected");
-            // set scene name as get parameter
-            var url = new URL(window.location.href);
-            console.log(url);
-            url.searchParams.set('scene_name', scene_name);
-            url.searchParams.set('nr_surfs', nr_surfs);
-            console.log(url.searchParams.get('scene_name'));
-            console.log(url.searchParams.get('nr_surfs'));
-            // open url with new get parameter
-            window.open(url, '_self');
-        }
-    </script>
-    <script type="importmap">
-			{
-				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/"
-				}
-			}
-	</script>
-    <!-- include main.js -->
-    <script type="module" src="./js/index.js"></script>
-    <!-- Bootstrap stuff -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
+  <meta name="keywords" content="novel view synthesis, real time, fuzzy surfaces">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HLKS3X19Y4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-HLKS3X19Y4');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
 </head>
-
 <body>
-    
-    <header data-bs-theme="dark">
-        <div class="collapse text-bg-dark" id="navbarHeader">
-            <div class="container" hidden> <!-- hidden -->
-                <div class="row">
-                    <div class="col-sm-8 col-md-7 py-4">
-                        <h4>About</h4>
-                        <p class="text-body-secondary">TODO.</p>
-                    </div>
-                    <div class="col-sm-4 offset-md-1 py-4">
-                        <h4>Contact</h4>
-                        <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">X/Twitter</a></li>
-                        <li><a href="#" class="text-white">Arxiv</a></li>
-                        <li><a href="#" class="text-white">Email me</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container">
 
-                <a href="#" class="navbar-brand">
-                    <img src="./favicon.ico" alt="Logo" width="24" height="24" class="d-inline-block align-text-top">
-                    <strong>volsurfs</strong>
+<!-- Navbar
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+-->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://s-esposito.github.io">Stefano Esposito</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://apchenstu.github.io/">Anpei Chen</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://creiser.github.io/">Christian Reiser</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=484sccEAAAAJ&hl=it">Samuel Rota Bulò</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://katjaschwarz.github.io/">Katja Schwarz</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://richardt.name/">Christian Richardt</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://zollhoefer.com/">Michael Zollhoefer</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.co.uk/citations?user=CxbDDRMAAAAJ&hl=en">Peter Kontschieder</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.cvlibs.net/">Andreas Geiger</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">University of Tuebingen<sup>1</sup>,</span>
+            <span class="author-block">Meta Reality Labs<sup>2</sup></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (Coming Soon)</span>
                 </a>
-                
-                <!-- hidden -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation" hidden>
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                
-                <div class="text_stats d-flex">
-                    frametime: &nbsp;<div id="frametime">-</div>&nbsp; ms 
-                </div>
-
-                <div class="text_stats d-flex">
-                    FPS: &nbsp;<div id="fps">-</div> &nbsp;
-                </div>
-
-                <div class="text_stats d-flex">
-                    heap limit: &nbsp;<div id="heap_limit">-</div>&nbsp; MB 
-                </div>
-
-                <div class="text_stats d-flex">
-                    total heap: &nbsp;<div id="total_heap">-</div>&nbsp; MB 
-                </div>
-
-                <div class="text_stats d-flex">
-                    used heap: &nbsp;<div id="used_heap">-</div>&nbsp; MB 
-                </div>
-            
+              </span>
+              <span class="link-block">
+                <a href="/viewer"
+                   class="external-link button is-normal is-rounded is-dark">    
+                   <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-window" viewBox="0 0 16 16">
+                      <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+                      <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"/>
+                    </svg>
+                  </span> 
+                  <span>Demo (Work in progress)</span>
+                </a>
+              </span>
+              <!--
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv (Coming soon)</span>
+                </a>
+              </span>
+              -->
+              
+              <span class="link-block">
+                <a href="https://drive.google.com/file/d/1IURMBmlpNrBX5dkg86kHHGNAPj0Nks36/view?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Smartphone Video</span>
+                </a>
+              </span>
+              
+              <!--
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Laptop Video</span>
+                </a>
+              </span>
+              -->
+              
+              <!--
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming soon)</span>
+                  </a>
+              </span>
+              -->
+              <!--
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              -->
             </div>
+
+          </div>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main>
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- 
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      -->
+      <img src="./static/images/teaser.png" alt="volsurfs teaser image."/>
+      <h2 class="subtitle has-text-centered">
+        We employ semi-transparent mesh shells to efficiently render fuzzy geometries, with higher image quality than surface-based methods and approaching 3DGS while rendering faster, particularly on low-end or mobile hardware.
+      </h2>
+    </div>
+  </div>
+</section>
 
-        <section class="py-3">
-            
-            <div class="container-fluid pb-3" id="webgl_container">
-                <div class="d-flex justify-content-center">
-                    <div id="canvas_container" class="shadow">
-                        <div id="loading_screen" class="text-center">
-                            <p id="loading_txt">loading...</p>
-                        </div>
-                        <div id="canvas"></div>
-                        <div id="stats"></div>
-                        <div id="gui"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- hidden at start -->
-            <div class="container" id="buttons_container" style="display: None">
-                <!-- <div class="row justify-content-center">
-                    <div class="col-1 pb-3 text-center">
-                        capture
-                    </div>
-                </div> -->
-                <div class="row pr-5 pl-5 pt-3 justify-content-center">
-                    <div class="col-3 d-flex justify-content-end">
-                        <button id="screenshot" type="button" class="btn btn-primary">capture current view</button>
-                    </div>
-                    <div class="col-3 d-flex justify-content-center">
-                        <button id="screenshot_train" type="button" class="btn btn-success">capture train views</button>
-                    </div>
-                    <div class="col-3 d-flex justify-content-start">
-                        <button id="screenshot_test" type="button" class="btn btn-danger">capture test views</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="container pr-5 pl-5 pb-3" id="progress_container">
-                <div class="row">
-                    meshes
-                    <div class="progress" style="padding: 0px;">
-                        <div id="progress_meshes" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    textures
-                    <div class="progress" style="padding: 0px;">
-                        <div id="progress_textures" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    processing
-                    <div class="progress" style="padding: 0px;">
-                        <div id="progress_data" class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-
-        </section>
-
-        <div class="album bg-body-light">
-
-            <div class="text-center container">
-
-                <div class="pt-3">
-                    
-                    <p><strong>Custom</strong></p>
-                
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
-                        
-                        <!-- plushy -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/plushy.jpg" alt="plushy" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('plushy', 1)">1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('plushy', 3)">3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('plushy', 5)">5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('plushy', 7)">7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('plushy', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- hairy_monkey -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/hairy_monkey.jpg" alt="hairy_monkey" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('hairy_monkey', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('hairy_monkey', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('hairy_monkey', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('hairy_monkey', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('hairy_monkey', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                
-                <div class="pt-3">
-
-                    <p><strong>Shelly</strong></p>
-                
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
-                        
-                        <!-- khady -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/khady.jpg" alt="khady" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('khady', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('khady', 3)">3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('khady', 5)">5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('khady', 7)" disabled>7</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- fernvase -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/fernvase.jpg" alt="fernvase" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('fernvase', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('fernvase', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('fernvase', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('fernvase', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('fernvase', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- kitten -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/kitten.jpg" alt="kitten" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('kitten', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('kitten', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('kitten', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('kitten', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('kitten', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- pug -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/pug.jpg" alt="pug" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('pug', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('pug', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('pug', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('pug', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('pug', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- horse -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/horse.jpg" alt="horse" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('horse', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('horse', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('horse', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('horse', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('horse', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- woolly -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/woolly.jpg" alt="woolly" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('woolly', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('woolly', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('woolly', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('woolly', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('woolly', 9)">9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="pt-3">
-                    
-                    <p><strong>DTU</strong></p>
-                
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
-                        
-                        <!-- plushy -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/dtu_scan83.jpg" alt="dtu_scan83" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan83', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan83', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan83', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan83', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan83', 9)" disabled>9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- hairy_monkey -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/dtu_scan105.jpg" alt="dtu_scan105" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan105', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan105', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan105', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan105', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('dtu_scan105', 9)" disabled>9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                
-                <!-- hidden -->
-                <div class="pt-3 pb-5" style="display: none;">
-                    
-                    <p><strong>MipNeRF360</strong></p>
-                
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-6 g-3">
-                        
-                        <!-- garden -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/garden.jpg" alt="garden" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('garden', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('garden', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('garden', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('garden', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('garden', 9)" disabled>9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- bicycle -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/bicycle.jpg" alt="bicycle" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bicycle', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bicycle', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bicycle', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bicycle', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bicycle', 9)" disabled>9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- bonsai -->
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <img class="bd-placeholder-img card-img-top" src="./assets/images/bonsai.jpg" alt="bonsai" width="100%">
-                                <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bonsai', 1)" disabled>1</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bonsai', 3)" disabled>3</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bonsai', 5)" disabled>5</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bonsai', 7)" disabled>7</button>
-                                        <button type="button" class="btn btn-sm btn-dark" onclick="scene_selection('bonsai', 9)" disabled>9</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <h2 class="subtitle has-text-centered">
+      Page under construction. Please check back later for updates.
+    </h2>
+    <!--
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
         </div>
-    
-    </main>
-
-    <footer class="text-body-secondary py-5" hidden> <!-- hidden -->
-        <div class="container">
-        <p class="float-end mb-1">
-            <a href="#">Back to top</a>
-        </p>
-        <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="#">getting started guide</a>.</p>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
         </div>
-    </footer>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+</section>
+
+<!--
+<section class="section">
+  <div class="container is-max-desktop">
+-->
+    <!-- Abstract. 
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present the first method capable of photorealistically reconstructing a non-rigidly
+            deforming scene using photos/videos captured casually from mobile phones.
+          </p>
+          <p>
+            Our approach augments neural radiance fields
+            (NeRF) by optimizing an
+            additional continuous volumetric deformation field that warps each observed point into a
+            canonical 5D NeRF.
+            We observe that these NeRF-like deformation fields are prone to local minima, and
+            propose a coarse-to-fine optimization method for coordinate-based models that allows for
+            more robust optimization.
+            By adapting principles from geometry processing and physical simulation to NeRF-like
+            models, we propose an elastic regularization of the deformation field that further
+            improves robustness.
+          </p>
+          <p>
+            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
+            photos/videos into deformable NeRF
+            models that allow for photorealistic renderings of the subject from arbitrary
+            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
+            using a
+            rig with two mobile phones that take time-synchronized photos, yielding train/validation
+            images of the same pose at different viewpoints. We show that our method faithfully
+            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
+            fidelity.
+          </p>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- Paper video
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    -->
+<!--
+  </div>
+</section>
+-->
+
+<section class="section" style="padding: 1rem 1.5rem !important;">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Visual Effects
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Visual Effects</h2>
+          <p>
+            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
+            would be impossible without nerfies since it would require going through a wall.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/dollyzoom-stacked.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      -->
+
+      <!-- Matting
+      <div class="column">
+        <h2 class="title is-3">Matting</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              As a byproduct of our method, we can also solve the matting problem by ignoring
+              samples that fall outside of a bounding box during rendering.
+            </p>
+            <video id="matting-video" controls playsinline height="100%">
+              <source src="./static/videos/matting.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- Animation 
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Animation</h2>
+    -->
+
+        <!-- Interpolating
+        <h3 class="title is-4">Interpolating states</h3>
+        <div class="content has-text-justified">
+          <p>
+            We can also animate the scene by interpolating the deformation latent codes of two input
+            frames. Use the slider here to linearly interpolate between the left frame and the right
+            frame.
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_start.jpg"
+                class="interpolation-image"
+                alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                  id="interpolation-slider"
+                  step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_end.jpg"
+                class="interpolation-image"
+                alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <br/>
+        -->
+
+        <!-- Re-rendering
+        <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+            viewpoint such as a stabilized camera by playing back the training deformations.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                controls
+                muted
+                preload
+                playsinline
+                width="75%">
+            <source src="./static/videos/replay.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        -->
+  
+  <!--
+      </div>
+    </div>
+  -->
+
+
+    <!-- Concurrent Work
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{esposito2024volsurfs,
+  author    = {Esposito, Stefano and Chen, Anpei and Reiser, Christian and Rota Bulò, Samuel and Schwarz, Katja and Richardt, Christian and Zollhoefer, Michael and Kontschieder, Peter and Geiger, Andreas},
+  title     = {Volumetric Surfaces: Representing Fuzzy Geometries with Multiple Meshes},
+  journal   = {ArXiv},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <!--
+    <div class="content has-text-centered">
+      <a class="icon-link"
+        href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <!--
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          -->
+          <p>
+            The website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
 </body>
-
 </html>
