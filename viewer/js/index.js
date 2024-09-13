@@ -22,7 +22,7 @@ if (url.searchParams.get('scene_name') != null) {
 if (url.searchParams.get('nr_surfs') != null) {
     var nr_surfs = Number(url.searchParams.get('nr_surfs'));
 } else {
-    var nr_surfs = 5;
+    var nr_surfs = 9;
 }
 
 if (url.searchParams.get('textures_mode') != null) {
