@@ -16,13 +16,13 @@ console.log(url);
 if (url.searchParams.get('scene_name') != null) {
     var scene_name = url.searchParams.get('scene_name');
 } else {
-    var scene_name = "plushy";
+    var scene_name = "kitten";
 }
 
 if (url.searchParams.get('nr_surfs') != null) {
     var nr_surfs = Number(url.searchParams.get('nr_surfs'));
 } else {
-    var nr_surfs = 9;
+    var nr_surfs = 5;
 }
 
 if (url.searchParams.get('textures_mode') != null) {
