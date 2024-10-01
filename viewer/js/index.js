@@ -98,7 +98,7 @@ let rendererCfg = {
 }
 
 let orbitCameraCfg = {
-    isRotating: true,
+    isRotating: false,
     radius: 1.0,
     theta: 0,
     phi: 0,
