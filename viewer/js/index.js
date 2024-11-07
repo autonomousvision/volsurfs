@@ -37,6 +37,13 @@ if (url.searchParams.get('sh_deg') != null) {
     var sh_deg = 3;
 }
 
+if (url.searchParams.get('frames_buffering') != null) {
+    var frames_buffering = Number(url.searchParams.get('frames_buffering'));
+}
+else {
+    var frames_buffering = 1;
+}
+
 const sceneName = scene_name;
 
 const nrMeshes = nr_surfs;
@@ -77,7 +84,7 @@ let rendererCfg = {
     dataset_height: 720,
     width: 1280,
     height: 720,
-	frames_buffering: 1,
+	frames_buffering: frames_buffering,
     renderMode: "volsurfs",
     debugShader: "grazing_angles", 
     near: 0.1,
