@@ -587,6 +587,12 @@ function renderVolsurfs() {
                 console.error('Error rendering post scene:', error);
             }
         }
+
+        // // if not last iteration, clean the frame buffer
+        // if (i < rendererCfg.frames_buffering - 1) {
+        //     renderer.clear();
+        // }
+
     }
 }
 
