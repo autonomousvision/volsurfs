@@ -1,0 +1,17 @@
+[submodule "extern/pybind11"]
+	path = extern/pybind11
+	url = https://github.com/pybind/pybind11
+[submodule "submodules/apex"]
+	path = submodules/apex
+	url = https://github.com/NVIDIA/apex.git
+[submodule "submodules/permutohedral_encoding"]
+	path = submodules/permutohedral_encoding
+	url = https://github.com/s-esposito/permutohedral_encoding.git
+[submodule "submodules/mvdatasets"]
+	path = submodules/mvdatasets
+	url = https://github.com/autonomousvision/mvdatasets.git
+	branch = volsurfs
+[submodule "submodules/raytracelib"]
+	path = submodules/raytracelib
+	url = https://github.com/s-esposito/raytracelib.git
+	branch = volsurfs
