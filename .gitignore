@@ -1,2 +1,7 @@
 .DS_store
 .idea
+data
+submodules
+wandb
+extern
+volsurfs_py
