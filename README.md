@@ -30,7 +30,7 @@
 
 ```bash
 # recursive cloning
-git clone --recursive https://github.com/s-esposito/volsurfs_dev
+git clone --recursive https://github.com/autonomousvision/volsurfs
 
 # create environment
 conda create -n volsurfs python=3.8
