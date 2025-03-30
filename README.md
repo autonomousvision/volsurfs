@@ -35,41 +35,25 @@ git clone --recursive https://github.com/autonomousvision/volsurfs
 # create environment
 conda create -n volsurfs python=3.8
 conda activate volsurfs
-
-# install cuda toolkit
+# install cuda toolkit (optional)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-
+# install cmake (optional)
+conda install anaconda::cmake 
 # install torch
 conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia
-
-# install tiny cuda nn
-pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
-
-# install mvdatasets (volsurfs branch)
-pip install submodules/mvdatasets
-
-# install raytracelib (volsurfs branch)
-pip install submodules/raytracelib
-
-# install permutohedral encoding
-make -C submodules/permutohedral_encoding
-
-# install remaining requirements
+# install requirements
 pip install -r requirements.txt
-
 # install APEX
-pip install submodules/apex -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
-
-# (optional) install cmake 
-conda install anaconda::cmake 
-
+cd submodules/apex
+pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
+cd ../..
 # finally, install volsurfs
 pip install -e .
 ```
 
 ## Datasets
 
-For training and experiments we use the the [NeRF_Synthetic](scripts/download/blender.sh), [DTU](scripts/download/dtu.sh) and [Shelly](scripts/download/shelly.sh) datasets. Downloading scripts in `scripts/download` will download the each dataset in `data`.
+For training and experiments we use the the [NeRF_Synthetic](scripts/download/blender.sh), [DTU](scripts/download/dtu.sh) and [Shelly](scripts/download/shelly.sh) datasets. Downloading scripts in `scripts/download` will download the each dataset in `data`. Path to data can be changed in `config/paths_config.cfg`. 
 
 ```bash
     data
@@ -89,7 +73,7 @@ For training and experiments we use the the [NeRF_Synthetic](scripts/download/bl
 
 ## Reproduce results
 
-To reproduce paper results (5-Mesh) on [Shelly](scripts/download/shelly.sh), run the `scripts/train_all_shelly.sh` script. Make sure you set the right paths in `config/paths_config.cfg` before. [Wandb](https://wandb.ai/) logging is active by default, you can toggle it in `config/train_config.cfg`.
+To reproduce paper results (5-Mesh) on [Shelly](scripts/download/shelly.sh), run the `scripts/train_all_shelly.sh` script. Results will be in `runs`. [Wandb](https://wandb.ai/) logging is active by default, you can toggle it in `config/train_config.cfg`.
 
 ## License
 

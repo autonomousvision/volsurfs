@@ -29,7 +29,7 @@ if [ "$EVAL_TEST" = true ]; then
 fi
 
 RUN_TRAINING=true
-RUN_EVALUATION=false
+RUN_EVALUATION=true
 RUN_MESHES_EXTRACTION=false
 REMOVE_RENDERS=false
 
