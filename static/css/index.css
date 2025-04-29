@@ -198,9 +198,17 @@ body {
   display: block;
 }
 
-.image-grid {
+.image-grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.image-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   max-width: 900px;
   margin: 0 auto;
@@ -221,7 +229,13 @@ body {
 }
 
 /* Label row */
-.image-grid .label {
+.image-grid-4 .label {
+  text-align: center;
+  font-weight: bold;
+  padding: 8px 0;
+}
+
+.image-grid-3 .label {
   text-align: center;
   font-weight: bold;
   padding: 8px 0;

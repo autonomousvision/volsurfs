@@ -209,12 +209,18 @@
             High-quality real-time view synthesis methods are based on volume rendering, splatting, or surface rendering.
           </p>
           <p>
-            While surface-based methods generally are the fastest, they cannot faithfully model fuzzy geometry like hair. In turn, alpha-blending techniques excel at representing fuzzy materials but require an unbounded number of samples per ray (P1). Further overheads are induced by empty space skipping in volume rendering (P2) and sorting input primitives in splatting (P3).
+            While surface-based methods generally are the fastest, 
+            they cannot faithfully model fuzzy geometry like hair. 
+            In turn, alpha-blending techniques excel at representing 
+            fuzzy materials but require an unbounded number 
+            of samples per ray <b>(P1)</b>. Further overheads are induced by 
+            empty space skipping in volume rendering <b>(P2)</b> and sorting input 
+            primitives in splatting <b>(P3)</b>.
           </p>
           <p>
             We present a novel representation for real-time view synthesis where 
-            the (P1) number of sampling locations is small and bounded, (P2) 
-            sampling locations are efficiently found via rasterization, and (P3) 
+            the <b>(P1)</b> number of sampling locations is small and bounded, <b>(P2)</b> 
+            sampling locations are efficiently found via rasterization, and <b>(P3)</b>
             rendering is sorting-free. We achieve this by representing objects as 
             semi-transparent multi-layer meshes, rendered in fixed order.
             First, we model surface layers as SDF shells with optimal spacing 
@@ -245,19 +251,27 @@
 
 <section class="section">
   <div class="container is-max-desktop">
+    <h2 class="title is-3" style=" text-align: center">Try our demo!</h2>
+    <video poster="" id="viewer_video" autoplay muted loop>
+      <source src="./static/videos/viewer_video.mp4" type="video/mp4">
+    </video>
+    <h2 class="has-text-centered">
+      Check out our <a href="https://autonomousvision.github.io/volsurfs/viewer/">web renderer</a> from your desktop or mobile device.
+    </h2>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
       <h2 class="title is-3">Results</h2>
       <div class="content has-text-justified">
         <p>
-          Our key baselines focus on real-time rendering, with 3DGS and MobileNeRF as primary competitors. 
-          3DGS represents the fastest volumetric approach, while MobileNeRF pioneers surface-based neural graphics for mobile devices. 
-        </p>
-        <p>
           Aiming at high-quality representation of fuzzy geometries, we focus our evaluation on object-centric datasets with prominent fuzzy structures.
-          Our method, tested on renderings from our real-time WebGL renderer, consistently delivers higher image quality than surface-based competitors and renders faster than 3DGS.
+          Our method, tested on renderings from our real-time WebGL renderer, consistently delivers higher image quality than surface-based competitors and renders faster than <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a>.
         </p>
       </div>
 
-      <section class="image-grid">
+      <section class="image-grid-4">
         <!-- 12 square images -->
         <div class="image-cell"><img src="./static/images/khady_normals_train_19.jpg" alt=""></div>
         <div class="image-cell"><img src="./static/images/khady_permutosdf_train_19.jpg" alt=""></div>
@@ -284,29 +298,82 @@
       
       <div class="content has-text-justified">
         <p>
-          Qualitative comparisons between (b) PermutoSDF and (c) ours demonstrate that our approach convincingly represents fuzzy objects. This is achieved by trading (a) high-frequency geometry for 
-          the number of integration points, which are found by rasterizing smooth, lightweight meshes defined as (d) shells around the object and
+          Qualitative comparisons between (b) <a href="https://radualexandru.github.io/permuto_sdf/">PermutoSDF</a> and (c) our method demonstrate that our approach convincingly represents fuzzy objects. 
+          This is achieved by trading (a) high-frequency geometry for 
+          the number of integration points, which are found by rasterizing smooth, 
+          lightweight meshes defined as (d) shells around the object and
           traversed in a fixed order.
         </p>
       </div>
-
       
+      <div class="content has-text-justified">
+        <p>
+          Our key baselines focus on real-time rendering, with 
+          <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
+          and <a href="https://mobile-nerf.github.io/">MobileNeRF</a> as primary 
+          competitors. 
+          3DGS represents the fastest volumetric approach, while MobileNeRF pioneers 
+          surface-based neural graphics for mobile devices. 
+        </p>
+      </div>
 
-  </div>
+      <section class="image-grid-4">
+        <!-- 12 square images -->
+        <div class="image-cell"><img src="./static/images/3DGS.jpg" alt="3DGS"></div>
+        <div class="image-cell"><img src="./static/images/3DGS-75K.jpg" alt="3DGS-75k"></div>
+        <div class="image-cell"><img src="./static/images/7-Mesh.jpg" alt="7-Mesh"></div>
+        <div class="image-cell"><img src="./static/images/GT.jpg" alt="GT"></div>
+    
+        <!-- Labels -->
+        <div class="label">3DGS</div>
+        <div class="label">3DGS-75k</div>
+        <div class="label">Ours (7-Mesh)</div>
+        <div class="label">Ground Truth</div>
+      </section>
 
+      <div class="content has-text-justified">
+        <p>
+          <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
+          demonstrates superior performance in modeling thin structures 
+          but is significantly less effective than our method in representing large, 
+          textured areas. 
+          In 3DGS-75k, we limit the maximum number of primitives during optimization 
+          to 75.000. 
+          Our method renders faster than 3DGS-75K on mobile devices, 
+          proving a clear advantage in term of efficiency even 
+          with a limited number of Guassians.
+        </p>
+      </div>
 
+      <section class="image-grid-3" style="width: 75%;">
+        <!-- 12 square images -->
+        <div class="image-cell"><img src="./static/images/khady_mobilenerf.jpg" alt="khady mobilenerf"></div>
+        <div class="image-cell"><img src="./static/images/khady_ours.jpg" alt="khady ours"></div>
+        <div class="image-cell"><img src="./static/images/khady_gt.jpg" alt="ground truth"></div>
+        
+        <div class="image-cell"><img src="./static/images/plushy_mobilenerf.jpg" alt="plushy mobilenerf"></div>
+        <div class="image-cell"><img src="./static/images/plushy_ours.jpg" alt="plushy ours"></div>
+        <div class="image-cell"><img src="./static/images/plushy_gt.jpg" alt="ground truth"></div>
+    
+        <div class="image-cell"><img src="./static/images/monkey_mobilenerf.jpg" alt="monkey mobilenerf"></div>
+        <div class="image-cell"><img src="./static/images/monkey_ours.jpg" alt="monkey ours"></div>
+        <div class="image-cell"><img src="./static/images/monkey_gt.jpg" alt="ground truth"></div>
 
-</section>
+        <!-- Labels -->
+        <div class="label">MobileNeRF</div>
+        <div class="label">Ours (5-Mesh)</div>
+        <div class="label">Ground Truth</div>
+      </section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <video poster="" id="viewer_video" autoplay muted loop>
-      <source src="./static/videos/viewer_video.mp4" type="video/mp4">
-    </video>
-    <h2 class="has-text-centered">
-      Try our <a href="https://autonomousvision.github.io/volsurfs/viewer/">web renderer</a> on your browser from your pc or mobile device!
-    </h2>
-  </div>
+      <div class="content has-text-justified">
+        <p>
+          Our method surpasses <a href="https://mobile-nerf.github.io/">MobileNeRF</a>
+          in modeling volumetric hair while also achieving superior 
+          performance on flat surfaces.
+        </p>
+      </div>
+
+    </div>
 </section>
 
 <section class="section" style="padding: 1rem 1.5rem !important;">
