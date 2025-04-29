@@ -49,8 +49,7 @@ from volsurfs_py.utils.visualization import (
 )
 from mvdatasets.utils.images import save_numpy_as_png
 
-
-os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
+# os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 
 
 # trains the model

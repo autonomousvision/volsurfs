@@ -33,7 +33,7 @@
 git clone --recursive https://github.com/autonomousvision/volsurfs
 
 # create environment
-conda create -n volsurfs python=3.8
+conda create -n volsurfs python=3.8 cmake=3.31
 conda activate volsurfs
 # install cuda toolkit (optional)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit

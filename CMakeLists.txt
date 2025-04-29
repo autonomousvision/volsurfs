@@ -35,8 +35,8 @@ message(STATUS "pybind11_INCLUDE_DIR: ${pybind11_INCLUDE_DIRS}")
 # get and append paths for finding dep
 # find torch: https://github.com/facebookresearch/hanabi_SAD/blob/6e4ed590f5912fcb99633f4c224778a3ba78879b/rela/CMakeLists.txt#L10
 execute_process( 
-  COMMAND python -c "import torch; import os; print(os.path.dirname(torch.__file__), end='')"
-  OUTPUT_VARIABLE TorchPath
+	COMMAND python -c "import torch; import os; print(os.path.dirname(torch.__file__), end='')"
+	OUTPUT_VARIABLE TorchPath
 )
 if(TorchPath STREQUAL "")
 	message( FATAL_ERROR "Torch not found. Please install torch. For more detail see https://pytorch.org/get-started/locally/" )
@@ -51,11 +51,11 @@ else()
         ERROR_STRIP_TRAILING_WHITESPACE
     )
     message(STATUS "TORCH_USES_CXX11_ABI: " ${TORCH_USES_CXX11_ABI})
-    # if(TORCH_USES_CXX11_ABI STREQUAL "True")
-    #     #all good
-    # else()
-    #     message( FATAL_ERROR "Torch was compiled with CXX11_ABI=0. This means it cannot be linked with the other libraries. The best would be to compile PyTorch from source. For more detail see https://github.com/pytorch/pytorch/issues/51039" )
-    # endif()
+    if(TORCH_USES_CXX11_ABI STREQUAL "True")
+        #all good
+    else()
+        message( FATAL_ERROR "Torch was compiled with CXX11_ABI=0. This means it cannot be linked with the other libraries. The best would be to compile PyTorch from source. For more detail see https://github.com/pytorch/pytorch/issues/51039" )
+    endif()
 endif()
 
 ###   INCLUDES   #########################################################
