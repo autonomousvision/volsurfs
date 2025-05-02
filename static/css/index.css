@@ -173,7 +173,7 @@ body {
 .phone::before {
   content: "";
   position: absolute;
-  top: 10px;
+  top: 3px;
   left: 50%;
   transform: translateX(-50%);
   width: 60px;
