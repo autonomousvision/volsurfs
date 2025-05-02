@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Semi-transparent mesh shells to efficiently render fuzzy geometries on low-end or mobile hardware.">
+        content="Real-time rendering of fuzzy 3D objects using lightweight layered meshes — combining the quality of volumetric methods with the efficiency of surface-based rendering.">
   <meta name="keywords" content="novel view synthesis, real time, fuzzy surfaces">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
@@ -34,8 +34,10 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/bulma-carousel.min.js"></script>
   <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1/dist/chartjs-plugin-annotation.min.js"></script>
   <script src="./static/js/index.js"></script>
-  
 </head>
 <body>
 
@@ -154,7 +156,10 @@
     <div>
       <img src="./static/images/teaser.png" alt="volsurfs teaser image."/>
       <h2 class="has-text-centered">
-        We employ semi-transparent mesh shells to efficiently render fuzzy geometries, with higher image quality than surface-based methods and approaching 3DGS while rendering faster, particularly on low-end or mobile hardware.
+        We employ semi-transparent mesh shells to <b>efficiently</b> render <b>fuzzy</b> 
+        geometries, with higher image quality than surface-based methods and 
+        approaching 3D Gaussian Splatting while rendering faster, 
+        particularly on <b>low-end</b> or <b>mobile hardware</b>.
       </h2>
     </div>
   </div>
@@ -256,269 +261,236 @@
       <source src="./static/videos/viewer_video.mp4" type="video/mp4">
     </video>
     <h2 class="has-text-centered">
-      Check out our <a href="https://autonomousvision.github.io/volsurfs/viewer/">web renderer</a> from your desktop or mobile device.
+      Check out our <a href="https://autonomousvision.github.io/volsurfs/viewer/">web renderer</a> from your desktop or mobile device. Works best on Chromium browsers.
     </h2>
   </div>
 </section>
 
 <section class="section">
   <div class="container is-max-desktop">
-      <h2 class="title is-3">Results</h2>
-      <div class="content has-text-justified">
-        <p>
-          Aiming at high-quality representation of fuzzy geometries, we focus our evaluation on object-centric datasets with prominent fuzzy structures.
-          Our method, tested on renderings from our real-time WebGL renderer, consistently delivers higher image quality than surface-based competitors and renders faster than <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a>.
-        </p>
-      </div>
+    <h2 class="title is-3">Evaluation</h2>
 
-      <section class="image-grid-4">
-        <!-- 12 square images -->
-        <div class="image-cell"><img src="./static/images/khady_normals_train_19.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/khady_permutosdf_train_19.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/khady_ours_train_19.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/khady_sections_train_19.jpg" alt=""></div>
-      
-        <div class="image-cell"><img src="./static/images/kitten_normals_train_9.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/kitten_permutosdf_train_9.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/kitten_ours_train_9.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/kitten_sections_train_9.jpg" alt=""></div>
-      
-        <div class="image-cell"><img src="./static/images/hairy_monkey_normals_train_8.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/hairy_monkey_permutosdf_train_8.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/hairy_monkey_ours_train_8.jpg" alt=""></div>
-        <div class="image-cell"><img src="./static/images/hairy_monkey_sections_train_8.jpg" alt=""></div>
-      
-        <!-- Labels -->
-        <div class="label">a)</div>
-        <div class="label">b)</div>
-        <div class="label">c)</div>
-        <div class="label">d)</div>
-
-      </section>
-      
-      <div class="content has-text-justified">
-        <p>
-          Qualitative comparisons between (b) <a href="https://radualexandru.github.io/permuto_sdf/">PermutoSDF</a> and (c) our method demonstrate that our approach convincingly represents fuzzy objects. 
-          This is achieved by trading (a) high-frequency geometry for 
-          the number of integration points, which are found by rasterizing smooth, 
-          lightweight meshes defined as (d) shells around the object and
-          traversed in a fixed order.
-        </p>
-      </div>
-      
-      <div class="content has-text-justified">
-        <p>
-          Our key baselines focus on real-time rendering, with 
-          <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
-          and <a href="https://mobile-nerf.github.io/">MobileNeRF</a> as primary 
-          competitors. 
-          3DGS represents the fastest volumetric approach, while MobileNeRF pioneers 
-          surface-based neural graphics for mobile devices. 
-        </p>
-      </div>
-
-      <section class="image-grid-4">
-        <!-- 12 square images -->
-        <div class="image-cell"><img src="./static/images/3DGS.jpg" alt="3DGS"></div>
-        <div class="image-cell"><img src="./static/images/3DGS-75K.jpg" alt="3DGS-75k"></div>
-        <div class="image-cell"><img src="./static/images/7-Mesh.jpg" alt="7-Mesh"></div>
-        <div class="image-cell"><img src="./static/images/GT.jpg" alt="GT"></div>
-    
-        <!-- Labels -->
-        <div class="label">3DGS</div>
-        <div class="label">3DGS-75k</div>
-        <div class="label">Ours (7-Mesh)</div>
-        <div class="label">Ground Truth</div>
-      </section>
-
-      <div class="content has-text-justified">
-        <p>
-          <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
-          demonstrates superior performance in modeling thin structures 
-          but is significantly less effective than our method in representing large, 
-          textured areas. 
-          In 3DGS-75k, we limit the maximum number of primitives during optimization 
-          to 75.000. 
-          Our method renders faster than 3DGS-75K on mobile devices, 
-          proving a clear advantage in term of efficiency even 
-          with a limited number of Guassians.
-        </p>
-      </div>
-
-      <section class="image-grid-3" style="width: 75%;">
-        <!-- 12 square images -->
-        <div class="image-cell"><img src="./static/images/khady_mobilenerf.jpg" alt="khady mobilenerf"></div>
-        <div class="image-cell"><img src="./static/images/khady_ours.jpg" alt="khady ours"></div>
-        <div class="image-cell"><img src="./static/images/khady_gt.jpg" alt="ground truth"></div>
-        
-        <div class="image-cell"><img src="./static/images/plushy_mobilenerf.jpg" alt="plushy mobilenerf"></div>
-        <div class="image-cell"><img src="./static/images/plushy_ours.jpg" alt="plushy ours"></div>
-        <div class="image-cell"><img src="./static/images/plushy_gt.jpg" alt="ground truth"></div>
-    
-        <div class="image-cell"><img src="./static/images/monkey_mobilenerf.jpg" alt="monkey mobilenerf"></div>
-        <div class="image-cell"><img src="./static/images/monkey_ours.jpg" alt="monkey ours"></div>
-        <div class="image-cell"><img src="./static/images/monkey_gt.jpg" alt="ground truth"></div>
-
-        <!-- Labels -->
-        <div class="label">MobileNeRF</div>
-        <div class="label">Ours (5-Mesh)</div>
-        <div class="label">Ground Truth</div>
-      </section>
-
-      <div class="content has-text-justified">
-        <p>
-          Our method surpasses <a href="https://mobile-nerf.github.io/">MobileNeRF</a>
-          in modeling volumetric hair while also achieving superior 
-          performance on flat surfaces.
-        </p>
-      </div>
-
+    <div class="content has-text-justified">
+      <p>
+        We focus our evaluation on object-centric datasets with prominent fuzzy structures.
+        Our method, tested on renderings from our real-time WebGL renderer, 
+        consistently delivers higher image quality than surface-based competitors 
+        and renders faster than <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a>.
+      </p>
     </div>
-</section>
 
-<section class="section" style="padding: 1rem 1.5rem !important;">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
-          <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/dollyzoom-stacked.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      -->
-
-      <!-- Matting
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <video id="matting-video" controls playsinline height="100%">
-              <source src="./static/videos/matting.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
+    <div class="content has-text-justified">
+      <p>
+        Our key baselines focus on real-time rendering, with 
+        <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
+        and <a href="https://mobile-nerf.github.io/">MobileNeRF</a> as primary 
+        competitors. 
+        3DGS represents the fastest volumetric approach, while MobileNeRF pioneers 
+        surface-based neural graphics for mobile devices. 
+      </p>
     </div>
-    -->
 
-    <!-- Animation 
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Animation</h2>
-    -->
+    <div class="performance-container">
+      
+      <!-- Performance Table -->
+      <div class="performance-table">
 
-        <!-- Interpolating
-        <h3 class="title is-4">Interpolating states</h3>
-        <div class="content has-text-justified">
-          <p>
-            We can also animate the scene by interpolating the deformation latent codes of two input
-            frames. Use the slider here to linearly interpolate between the left frame and the right
-            frame.
-          </p>
-        </div>
-        <div class="columns is-vcentered interpolation-panel">
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_start.jpg"
-                class="interpolation-image"
-                alt="Interpolate start reference image."/>
-            <p>Start Frame</p>
-          </div>
-          <div class="column interpolation-video-column">
-            <div id="interpolation-image-wrapper">
-              Loading...
-            </div>
-            <input class="slider is-fullwidth is-large is-info"
-                  id="interpolation-slider"
-                  step="1" min="0" max="100" value="0" type="range">
-          </div>
-          <div class="column is-3 has-text-centered">
-            <img src="./static/images/interpolate_end.jpg"
-                class="interpolation-image"
-                alt="Interpolation end reference image."/>
-            <p class="is-bold">End Frame</p>
-          </div>
-        </div>
-        <br/>
-        -->
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>FPS ⋄ ⬆️</th>
+              <th>FPS ⋆ ⬆️</th>
+              <th>PSNR ⬆️</th>
+              <th>MB ⬇️</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://mobile-nerf.github.io/">MobileNeRF</a></td>
+              <td class="right">24</td>
+              <td class="right">35</td>
+              <td class="right">29.30</td>
+              <td class="right">194</td>
+            </tr>
+            <tr>
+              <td><a href="#3DGS-75k">3DGS-75K</a></td>
+              <td class="right">13</td>
+              <td class="right">115</td>
+              <td class="right">33.05</td>
+              <td class="right">18</td>
+            </tr>
+            <tr>
+              <td><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a></td>
+              <td class="right">8</td>
+              <td class="right">18</td>
+              <td class="right">35.44</td>
+              <td class="right">57</td>
+            </tr>
 
-        <!-- Re-rendering
-        <h3 class="title is-4">Re-rendering the input video</h3>
-        <div class="content has-text-justified">
-          <p>
-            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
-            viewpoint such as a stabilized camera by playing back the training deformations.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                controls
-                muted
-                preload
-                playsinline
-                width="75%">
-            <source src="./static/videos/replay.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        -->
+            <tr class="separator-row">
+              <td colspan="5"></td>
+            </tr>
+
+            <tr class="highlight">
+              <td>3-Mesh</td>
+              <td class="right">65</td>
+              <td class="right">145</td>
+              <td class="right">33.39</td>
+              <td class="right">46</td>
+            </tr>
+            <tr class="highlight">
+              <td>5-Mesh</td>
+              <td class="right">55</td>
+              <td class="right">90</td>
+              <td class="right">34.25</td>
+              <td class="right">77</td>
+            </tr>
+            <tr class="best">
+              <td><strong>7-Mesh</strong></td>
+              <td class="right"><strong>42</strong></td>
+              <td class="right"><strong>70</strong></td>
+              <td class="right"><strong>34.50</strong></td>
+              <td class="right"><strong>110</strong></td>
+            </tr>
+            <tr class="highlight">
+              <td>9-Mesh</td>
+              <td class="right">35</td>
+              <td class="right">55</td>
+              <td class="right">34.38</td>
+              <td class="right">140</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Chart Image -->
+      <div class="performance-chart">
+        <canvas id="performanceChart" width="500" height="400"></canvas>
+      </div>
+    
+    </div>
+
+    <div class="content has-text-justified">
+      <p>
+        Framerate is measured on close-up views at HD (720p)
+        resolution on low-power smartphone (<b>Samsung A52s</b>) (marked
+        with <b>⋄</b>) and laptop (<b>Dell XPS 13 i5</b>) (marked with <b>⋆</b>), on respective
+        WebGL renderers; memory footprint as stored on disk.
+      </p>
+      <p>
+        We find that using seven layers (<b>7-Mesh</b>) offers
+        a good balance between image quality, model size, 
+        and rendering speed. Refer to our paper for more extensive quantitative results.
+      </p>
+    </div>  
+
+    <!-- Create separator line -->
+    <hr class="separator">
+
+    <section class="image-grid-4">
+      <!-- 12 square images -->
+      <div class="image-cell"><img src="./static/images/khady_normals_train_19.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/khady_permutosdf_train_19.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/khady_ours_train_19.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/khady_sections_train_19.jpg" alt=""></div>
+    
+      <div class="image-cell"><img src="./static/images/kitten_normals_train_9.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/kitten_permutosdf_train_9.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/kitten_ours_train_9.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/kitten_sections_train_9.jpg" alt=""></div>
+    
+      <div class="image-cell"><img src="./static/images/hairy_monkey_normals_train_8.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/hairy_monkey_permutosdf_train_8.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/hairy_monkey_ours_train_8.jpg" alt=""></div>
+      <div class="image-cell"><img src="./static/images/hairy_monkey_sections_train_8.jpg" alt=""></div>
+    
+      <!-- Labels -->
+      <div class="label">a)</div>
+      <div class="label">b)</div>
+      <div class="label">c)</div>
+      <div class="label">d)</div>
+
+    </section>
+
+    <div class="content has-text-justified">
+      <p>
+        Qualitative comparisons between (b) <a href="https://radualexandru.github.io/permuto_sdf/">PermutoSDF</a> and (c) our method demonstrate that our approach convincingly represents fuzzy objects. 
+        This is achieved by trading (a) high-frequency geometry for 
+        the number of integration points, which are found by rasterizing smooth, 
+        lightweight meshes defined as (d) adaptively-spaced shells around the object and
+        traversed in a fixed order.
+      </p>
+    </div>
+
+    <!-- Create separator line -->
+    <hr class="separator">
+
+    <section class="image-grid-4"">
+      <!-- 12 square images -->
+      <div class="image-cell"><img src="./static/images/3DGS.jpg" alt="3DGS"></div>
+      <div class="image-cell"><img src="./static/images/3DGS-75K.jpg" alt="3DGS-75k"></div>
+      <div class="image-cell"><img src="./static/images/7-Mesh.jpg" alt="7-Mesh"></div>
+      <div class="image-cell"><img src="./static/images/GT.jpg" alt="GT"></div>
   
-  <!--
-      </div>
+      <!-- Labels -->
+      <div class="label">3DGS</div>
+      <div class="label" id="3DGS-75k">3DGS-75k</div>
+      <div class="label">Ours (7-Mesh)</div>
+      <div class="label">Ground Truth</div>
+    </section>
+
+    <div class="content has-text-justified">
+      <p>
+        <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> 
+        demonstrates superior performance in modeling thin structures 
+        but is significantly less effective than our method in representing large, 
+        textured areas. 
+        In 3DGS-75k, we limit the maximum number of primitives during optimization 
+        to 75.000. 
+        Our method renders faster than 3DGS-75K on mobile devices, 
+        proving a clear advantage in term of efficiency even 
+        with a limited number of Guassians.
+      </p>
     </div>
-  -->
 
+    <!-- Create separator line -->
+    <hr class="separator">
 
-    <!-- Concurrent Work
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
+    <section class="image-grid-3" style="width: 75%;">
+      <!-- 12 square images -->
+      <div class="image-cell"><img src="./static/images/khady_mobilenerf.jpg" alt="khady mobilenerf"></div>
+      <div class="image-cell"><img src="./static/images/khady_ours.jpg" alt="khady ours"></div>
+      <div class="image-cell"><img src="./static/images/khady_gt.jpg" alt="ground truth"></div>
+      
+      <div class="image-cell"><img src="./static/images/plushy_mobilenerf.jpg" alt="plushy mobilenerf"></div>
+      <div class="image-cell"><img src="./static/images/plushy_ours.jpg" alt="plushy ours"></div>
+      <div class="image-cell"><img src="./static/images/plushy_gt.jpg" alt="ground truth"></div>
+  
+      <div class="image-cell"><img src="./static/images/monkey_mobilenerf.jpg" alt="monkey mobilenerf"></div>
+      <div class="image-cell"><img src="./static/images/monkey_ours.jpg" alt="monkey ours"></div>
+      <div class="image-cell"><img src="./static/images/monkey_gt.jpg" alt="ground truth"></div>
 
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
+      <!-- Labels -->
+      <div class="label">MobileNeRF</div>
+      <div class="label">Ours (5-Mesh)</div>
+      <div class="label">Ground Truth</div>
+    </section>
+
+    <div class="content has-text-justified">
+      <p>
+        Our method surpasses <a href="https://mobile-nerf.github.io/">MobileNeRF</a>
+        in modeling volumetric hair while also achieving superior 
+        performance on flat surfaces.
+      </p>
     </div>
-    -->
 
-  </div>
 </section>
 
-
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3" style=" text-align: center">Cite us!</h2>
+    <pre style="box-shadow: 0 10px 10px rgba(0,0,0,0.1);"><code>
     @inproceedings{Esposito2025VolSurfs,
       author    = {Esposito, Stefano and Chen, Anpei and Reiser, Christian and Rota Bulò, Samuel and Porzi, Lorenzo and Schwarz, Katja and Richardt, Christian and Zollhoefer, Michael and Kontschieder, Peter and Geiger, Andreas},
       title     = {Volumetric Surfaces: Representing Fuzzy Geometries with Layered Meshes},
@@ -527,8 +499,22 @@
     }
     </code></pre>
   </div>
+  <br><br>
+  <div class="container is-max-desktop">
+    <h2 class="title is-4">Acknowledgments</h2>
+    <p>Plushy Blender object by <a href="https://kaizentutorials.gumroad.com/l/plushy?layout=profile">kaizentutorials</a>.</p>
+    <p>Stefano Esposito acknowledges travel support from the European Union’s
+      Horizon 2020 research and innovation program under ELISE
+      Grant Agreement No. 951847.</p>
+  </div>
+  <br><br>
+  <section class="image-grid-3" style="width: 100%;">
+    <!-- 12 square images -->
+    <div style="padding: 30px"><img src="./static/images/uni-tue.png" alt="uni-tue"></div>
+    <div style="padding: 30px"><img src="./static/images/ellis.png" alt="ellis"></div>
+    <div style="padding: 30px"><img src="./static/images/meta.png" alt="meta"></div>
+  </section>
 </section>
-
 
 <footer class="footer">
   <div class="container">
@@ -546,15 +532,13 @@
     <div class="columns is-centered">
       <div class="column is-8">
         <div class="content">
-          <!--
+          <p>
+            The website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
           <p>
             This website is licensed under a <a rel="license"
                                                 href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
             Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          -->
-          <p>
-            The website template is borrowed from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
           </p>
         </div>
       </div>

@@ -1,78 +1,97 @@
-window.HELP_IMPROVE_VIDEOJS = false;
+document.addEventListener('DOMContentLoaded', function () {
+  // Chart.js setup
+  const data = [
+    { label: 'MobileNeRF', fps: 24, psnr: 29.3, memory: 194, color: '#7f7f7f' },
+    { label: '3DGS-50K', fps: 20, psnr: 32.73, memory: 12, color: '#1f77b4' },
+    { label: '3DGS-75K', fps: 13, psnr: 33.05, memory: 18, color: '#ff7f0e' },
+    { label: '3DGS', fps: 8, psnr: 35.44, memory: 57, color: '#2ca02c' },
+    { label: '3-Mesh', fps: 65, psnr: 33.39, memory: 46, color: '#d62728' },
+    { label: '5-Mesh', fps: 55, psnr: 34.25, memory: 77, color: '#9467bd' },
+    { label: '7-Mesh', fps: 42, psnr: 34.50, memory: 110, color: '#8c564b' },
+    { label: '9-Mesh', fps: 35, psnr: 34.38, memory: 140, color: '#e377c2' }
+  ];
 
-var INTERP_BASE = "./static/interpolation/stacked";
-var NUM_INTERP_FRAMES = 240;
+  const dataset = {
+    datasets: data.map(point => ({
+      label: point.label,
+      data: [{ x: point.fps, y: point.psnr, r: Math.sqrt(point.memory) }],
+      backgroundColor: point.color,
+      borderColor: '#333',
+      borderWidth: 1
+    }))
+  };
 
-var interp_images = [];
-function preloadInterpolationImages() {
-  for (var i = 0; i < NUM_INTERP_FRAMES; i++) {
-    var path = INTERP_BASE + '/' + String(i).padStart(6, '0') + '.jpg';
-    interp_images[i] = new Image();
-    interp_images[i].src = path;
-  }
-}
+  // Register the plugins
+  Chart.register(ChartDataLabels);
+  Chart.register(ChartDataLabels, window['chartjs-plugin-annotation']);
 
-function setInterpolationImage(i) {
-  var image = interp_images[i];
-  image.ondragstart = function() { return false; };
-  image.oncontextmenu = function() { return false; };
-  $('#interpolation-image-wrapper').empty().append(image);
-}
-
-
-$(document).ready(function() {
-    // Check for click events on the navbar burger icon
-    $(".navbar-burger").click(function() {
-      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-      $(".navbar-burger").toggleClass("is-active");
-      $(".navbar-menu").toggleClass("is-active");
-
-    });
-
-    var options = {
-			slidesToScroll: 1,
-			slidesToShow: 3,
-			loop: true,
-			infinite: true,
-			autoplay: false,
-			autoplaySpeed: 3000,
+  // Chart config with options and plugin
+  const config = {
+    type: 'bubble',
+    data: dataset,
+    options: {
+      plugins: {
+        datalabels: {
+          align: 'top',
+          anchor: 'end',
+          font: {
+            size: 10,
+            weight: 'bold'
+          },
+          formatter: (value, context) => context.dataset.label,
+          color: '#000'
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const pt = ctx.raw;
+              const label = ctx.dataset.label;
+              const mem = (pt.r ** 2).toFixed(1);
+              return `${label}: ${pt.x} FPS, ${pt.y} PSNR, ${mem} MB`;
+            }
+          }
+        },
+        legend: { display: false },
+        annotation: {
+          annotations: {
+            xLine: {
+              type: 'line',
+              xMin: 30,
+              xMax: 30,
+              borderColor: 'black',
+              borderWidth: 1,
+              borderDash: [4, 4],
+              label: {
+                display: true,
+                content: 'real-time',
+                position: 'start',
+                color: 'black',
+                backgroundColor: 'transparent',
+                font: {
+                  size: 10,
+                  style: 'italic'
+                }
+              }
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'FPS ⋄' },
+          min: 0,
+          max: 70
+        },
+        y: {
+          title: { display: true, text: 'PSNR' },
+          min: 28,
+          max: 36
+        }
+      }
     }
+  };
 
-		// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
-
-    // Loop on each carousel initialized
-    for(var i = 0; i < carousels.length; i++) {
-    	// Add listener to  event
-    	carousels[i].on('before:show', state => {
-    		console.log(state);
-    	});
-    }
-
-    // Access to bulmaCarousel instance of an element
-    var element = document.querySelector('#my-element');
-    if (element && element.bulmaCarousel) {
-    	// bulmaCarousel instance is available as element.bulmaCarousel
-    	element.bulmaCarousel.on('before-show', function(state) {
-    		console.log(state);
-    	});
-    }
-
-    /*var player = document.getElementById('interpolation-video');
-    player.addEventListener('loadedmetadata', function() {
-      $('#interpolation-slider').on('input', function(event) {
-        console.log(this.value, player.duration);
-        player.currentTime = player.duration / 100 * this.value;
-      })
-    }, false);*/
-    preloadInterpolationImages();
-
-    $('#interpolation-slider').on('input', function(event) {
-      setInterpolationImage(this.value);
-    });
-    setInterpolationImage(0);
-    $('#interpolation-slider').prop('max', NUM_INTERP_FRAMES - 1);
-
-    bulmaSlider.attach();
-
-})
+  // Create chart
+  const ctx = document.getElementById('performanceChart');
+  if (ctx) new Chart(ctx, config);
+});
