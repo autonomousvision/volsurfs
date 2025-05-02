@@ -151,10 +151,35 @@
   </div>
 </section>
 
-<section class="teaser">
+<section class="teaser" style="padding-left: 15px; padding-right: 15px;">
   <div class="container is-max-desktop">
     <div>
-      <img src="./static/images/teaser.png" alt="volsurfs teaser image."/>
+      <div class="image-grid-1-3">
+        <div class="image-grid-1-3-column image-grid-1-3-column-split">
+          <div class="image-wrapper">
+            <img src="./static/images/teaser_permutosdf.jpg" alt="PermutoSDF">
+            <div class="label">PermutoSDF</div>
+          </div>
+          <div class="image-wrapper">
+            <img src="./static/images/teaser_ours.jpg" alt="Ours">
+            <div class="label">Ours (7-Mesh)</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="image-wrapper">
+            <img src="./static/images/teaser_3dgs.jpg" alt="3DGS">
+            <div class="label">3DGS</div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="image-wrapper">
+            <img src="./static/images/teaser_ours_2.jpg" alt="Ours">
+            <div class="label">Ours (7-Mesh)</div>
+          </div>
+        </div>
+      </div>
+      
+
       <h2 class="has-text-centered">
         We employ semi-transparent mesh shells to <b>efficiently</b> render <b>fuzzy</b> 
         geometries, with higher image quality than surface-based methods and 
@@ -242,7 +267,7 @@
       </div>
 
       <!-- Phone Video Column (25%) -->
-      <div class="column is-one-quarter is-flex is-justify-content-center ml-5 mt-5">
+      <div class="column is-one-quarter phone-container">
         <div class="phone">
           <div class="screen">
             <video src="./static/videos/viewer_video_phone.mp4" autoplay muted loop></video>
@@ -416,7 +441,8 @@
 
     <div class="content has-text-justified">
       <p>
-        Qualitative comparisons between (b) <a href="https://radualexandru.github.io/permuto_sdf/">PermutoSDF</a> and (c) our method demonstrate that our approach convincingly represents fuzzy objects. 
+        Qualitative comparisons between (b) <a href="https://radualexandru.github.io/permuto_sdf/">PermutoSDF</a> 
+        and (c) our method (7-Mesh) demonstrate that our approach convincingly represents fuzzy objects. 
         This is achieved by trading (a) high-frequency geometry for 
         the number of integration points, which are found by rasterizing smooth, 
         lightweight meshes defined as (d) adaptively-spaced shells around the object and
