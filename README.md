@@ -18,10 +18,6 @@
 <br>
 <sup>1</sup>[University of Tübingen](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/autonomous-vision/home/), <sup>2</sup>Meta Reality Labs
 
-```
-⚠️ This code release has not been finalized yet. Some components might not work as intended.
-```
-
 <p align="middle">
   <img src="imgs/teaser.png" width="650"/>
 </p>
@@ -33,12 +29,12 @@
 git clone --recursive https://github.com/autonomousvision/volsurfs
 
 # create environment
-conda create -n volsurfs python=3.8 cmake=3.31
+conda create -n volsurfs python=3.8 cmake=3.31 pybind11=2.13 ninja=1.11
 conda activate volsurfs
+#
+export CMAKE_PREFIX_PATH=$(python -m pybind11 --cmakedir):$CMAKE_PREFIX_PATH
 # install cuda toolkit (optional)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-# install cmake (optional)
-conda install anaconda::cmake 
 # install torch
 conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia
 # install requirements
@@ -47,8 +43,8 @@ pip install -r requirements.txt
 cd submodules/apex
 pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
 cd ../..
-# finally, install volsurfs
-pip install -e .
+# finally, compile and install volsurfs
+pip install . --no-build-isolation
 ```
 
 ## Datasets

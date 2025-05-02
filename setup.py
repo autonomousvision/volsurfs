@@ -1,123 +1,141 @@
 import os
-import re
 import sys
-import platform
 import subprocess
-
-from setuptools import find_packages
-from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
-from distutils.version import LooseVersion
-from distutils.command.install_headers import install_headers as install_headers_orig
-
+import urllib.request
+import tarfile
 import shutil
 
-if shutil.which("nvcc") is None:
-    raise RuntimeError("CUDA compiler (nvcc) is not found! Ensure CUDA is installed.")
+from setuptools import setup, Extension, find_packages
+from setuptools.command.build_ext import build_ext
+
+_src_path = os.path.abspath(os.path.dirname(__file__))
+
+
+def pybing11_include():
+    PYBIND11_WEB_URL = "https://github.com/pybind/pybind11/archive/refs/tags/v2.11.0.tar.gz"
+    TMP_PYBIND11_FILE = "tmp_pybind11.tar.gz"
+    PYBIND11_DIRNAME = "pybind11-2.11.0"
+
+    target_dir = os.path.join(_src_path, "cpp/third_party", PYBIND11_DIRNAME)
+    if os.path.exists(target_dir):
+        return target_dir
+    else:
+        print("Couldn't find pybind11 locally, downloading...")
+        req = urllib.request.Request(
+            PYBIND11_WEB_URL,
+            data=None,
+            headers={
+                "User-Agent": "Mozilla/5.0"
+            },
+        )
+
+        ext_dir = os.path.join(_src_path, "cpp/third_party")
+        os.makedirs(ext_dir, exist_ok=True)
+
+        pybind11_archive_path = os.path.join(ext_dir, TMP_PYBIND11_FILE)
+        with urllib.request.urlopen(req) as resp, open(pybind11_archive_path, "wb") as file:
+            file.write(resp.read())
+
+        with tarfile.open(pybind11_archive_path) as tar:
+            tar.extractall(path=ext_dir)
+
+        os.remove(pybind11_archive_path)
+        return target_dir
+            
+                        
+def get_eigen_include():
+    EIGEN_WEB_URL = (
+        "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2"
+    )
+    TMP_EIGEN_FILE = "tmp_eigen.tar.bz2"
+    EIGEN3_DIRNAME = "eigen-3.3.7"
+
+    target_dir = os.path.join(_src_path, "cpp/third_party", EIGEN3_DIRNAME)
+    if os.path.exists(target_dir):
+        return target_dir
+    else:
+        print("Couldn't find Eigen locally, downloading...")
+        req = urllib.request.Request(
+            EIGEN_WEB_URL,
+            data=None,
+            headers={
+                "User-Agent": "Mozilla/5.0"
+            },
+        )
+
+        ext_dir = os.path.join(_src_path, "cpp/third_party")
+        os.makedirs(ext_dir, exist_ok=True)
+
+        eigen_archive_path = os.path.join(ext_dir, TMP_EIGEN_FILE)
+        with urllib.request.urlopen(req) as resp, open(eigen_archive_path, "wb") as file:
+            file.write(resp.read())
+
+        with tarfile.open(eigen_archive_path) as tar:
+            tar.extractall(path=ext_dir)
+
+        os.remove(eigen_archive_path)
+        return target_dir
 
 
 class CMakeExtension(Extension):
-    def __init__(self, name, sourcedir=""):
-        Extension.__init__(self, name, sources=[])
+    def __init__(self, name, sourcedir="cpp"):
+        super().__init__(name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
 
 
 class CMakeBuild(build_ext):
     def run(self):
-        try:
-            out = subprocess.check_output(["cmake", "--version"])
-        except OSError:
-            raise RuntimeError(
-                "CMake must be installed to build the following extensions: "
-                + ", ".join(e.name for e in self.extensions)
-            )
-
-        if platform.system() == "Windows":
-            cmake_version = LooseVersion(
-                re.search(r"version\s*([\d.]+)", out.decode()).group(1)
-            )
-            if cmake_version < "3.1.0":
-                raise RuntimeError("CMake >= 3.1.0 is required on Windows")
-
         for ext in self.extensions:
             self.build_extension(ext)
 
     def build_extension(self, ext):
+        build_dir = self.build_temp
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
+        eigen_dir = get_eigen_include()
+        pybind11_dir = pybing11_include()
+
+        os.makedirs(build_dir, exist_ok=True)
+
+        if shutil.which("ninja") is None:
+            raise RuntimeError("Ninja is not installed or not in PATH. Please install ninja-build.")
+
         cmake_args = [
-            "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + extdir,
-            "-DPYTHON_EXECUTABLE=" + sys.executable,
-            #   '-GNinja'
+            f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
+            f"-DPYTHON_EXECUTABLE={sys.executable}",
+            f"-DEIGEN3_INCLUDE_DIR={eigen_dir}",
+            f"-DPYBIND11_DIR={pybind11_dir}",
         ]
+        build_args = ["--", "-j4"]
 
-        # cfg = 'Debug' if self.debug else 'Release'
-        # build_args = ['--config', cfg]
-        build_args = []
-
-        if platform.system() == "Windows":
-            cmake_args += ["-A", "x64"]
-            build_args += ["--", "/m"]
-        else:
-            # cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
-            build_args += ["--", "-j4"]
-
-        env = os.environ.copy()
-        env["CXXFLAGS"] = '{} -DVERSION_INFO=\\"{}\\"'.format(
-            env.get("CXXFLAGS", ""), self.distribution.get_version()
-        )
-        if not os.path.exists(self.build_temp):
-            os.makedirs(self.build_temp)
-        # print ("build temp is ", self.build_temp)
-
-        subprocess.check_call(
-            ["cmake", ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env
-        )
-        subprocess.check_call(
-            ["cmake", "--build", "."] + build_args, cwd=self.build_temp
-        )
-
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
-
-# install headers while retaining the structure of the tree folder
-# https://stackoverflow.com/a/50114715
-class install_headers(install_headers_orig):
-    def run(self):
-        headers = self.distribution.headers or []
-        for header in headers:
-            dst = os.path.join(self.install_dir, os.path.dirname(header))
-            print("----------------copying in ", dst)
-            self.mkpath(dst)
-            (out, _) = self.copy_file(header, dst)
-            self.outfiles.append(out)
+        # Use Ninja generator
+        subprocess.check_call(["cmake", ext.sourcedir, "-G", "Ninja"] + cmake_args, cwd=build_dir)
+        subprocess.check_call(["cmake", "--build", "."] + build_args, cwd=build_dir)
 
 
 setup(
     name="volsurfs",
     version="1.0.0",
-    author="Stefano Esposito",
-    author_email="stefano.esposito@uni-tuebingen.de",
-    description="volsurfs",
-    long_description=long_description,
-    ext_modules=[CMakeExtension("volsurfs")],
-    cmdclass={
-        "build_ext": CMakeBuild,
-        "install_headers": install_headers,
-    },
-    packages=find_packages(include=["volsurfs_py", "volsurfs_py.*"]),
-    setup_requires=["setuptools", "pybind11[global]", "torch>=2.1.0"],
+    description="CUDA-accelerated volumetric rendering with PyTorch",
+    author="Your Name",
+    author_email="your.email@example.com",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    packages=find_packages(include=["volsurfs", "volsurfs.*"]),
+    ext_modules=[CMakeExtension("volsurfs_cpp")],
+    cmdclass={"build_ext": CMakeBuild},
     install_requires=[
+        "torch>=2.1",
+        "pybind11>=2.10",
+        "numpy",
         "hjson",
-        "ipython",
         "wandb",
         "piq==0.8.0",
         "scikit-image==0.21.0",
         "pymeshlab==2023.12.post2",
         "xatlas==0.0.9",
         "trimesh==4.6.0",
-        "gdown",
+        "gdown"
     ],
+    python_requires=">=3.8",
     zip_safe=False,
 )
