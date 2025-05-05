@@ -95,6 +95,7 @@ target_link_libraries(volsurfs_cu PRIVATE ${TORCH_LIBRARIES} ${CUDA_LIBRARIES})
 pybind11_add_module(volsurfs src/PyBridge.cxx)
 target_include_directories(volsurfs PRIVATE
   ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}/kernels
   ${EIGEN3_INCLUDE_DIR}
   ${CUDA_INCLUDE_DIRS}
   ${TORCH_INCLUDE_DIRS}

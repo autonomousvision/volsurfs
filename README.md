@@ -38,7 +38,7 @@ conda activate volsurfs
 # install cuda toolkit (optional)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 # install torch
-conda install pytorch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 pytorch-cuda=11.8 -c pytorch -c nvidia
+conda install pytorch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1  pytorch-cuda=11.8 -c pytorch -c nvidia
 # install requirements
 pip install -r requirements.txt
 # install APEX
@@ -46,6 +46,7 @@ cd submodules/apex
 pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
 cd ../..
 # finally, compile and install volsurfs
+pip install ninja
 pip install . --no-build-isolation
 ```
 
