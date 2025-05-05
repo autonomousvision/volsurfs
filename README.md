@@ -27,12 +27,14 @@
 ```bash
 # recursive cloning
 git clone --recursive https://github.com/autonomousvision/volsurfs
+cd volsurfs
+git submodule update --remote --merge
 
 # create environment
-conda create -n volsurfs python=3.8 cmake=3.31 pybind11=2.13 ninja=1.11
+conda create -n volsurfs python=3.8 cmake=3.31
 conda activate volsurfs
 #
-export CMAKE_PREFIX_PATH=$(python -m pybind11 --cmakedir):$CMAKE_PREFIX_PATH
+# export CMAKE_PREFIX_PATH=$(python -m pybind11 --cmakedir):$CMAKE_PREFIX_PATH
 # install cuda toolkit (optional)
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 # install torch

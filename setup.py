@@ -11,7 +11,7 @@ from setuptools.command.build_ext import build_ext
 _src_path = os.path.abspath(os.path.dirname(__file__))
 
 
-def pybing11_include():
+def get_pybind11_include():
     PYBIND11_WEB_URL = "https://github.com/pybind/pybind11/archive/refs/tags/v2.11.0.tar.gz"
     TMP_PYBIND11_FILE = "tmp_pybind11.tar.gz"
     PYBIND11_DIRNAME = "pybind11-2.11.0"
@@ -92,7 +92,7 @@ class CMakeBuild(build_ext):
         build_dir = self.build_temp
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
         eigen_dir = get_eigen_include()
-        pybind11_dir = pybing11_include()
+        pybind11_dir = get_pybind11_include()
 
         os.makedirs(build_dir, exist_ok=True)
 
@@ -116,7 +116,7 @@ setup(
     name="volsurfs",
     version="1.0.0",
     description="CUDA-accelerated volumetric rendering with PyTorch",
-    author="Your Name",
+    author="Stefano Esposito",
     author_email="your.email@example.com",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
@@ -125,7 +125,6 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     install_requires=[
         "torch>=2.1",
-        "pybind11>=2.10",
         "numpy",
         "hjson",
         "wandb",
