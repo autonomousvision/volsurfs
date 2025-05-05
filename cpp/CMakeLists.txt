@@ -1,6 +1,3 @@
-# set(LIBNVTOOLSEXT ${CUDA_nvToolsExt_LIBRARY})
-# message(STATUS "LIBNVTOOLSEXT": ${LIBNVTOOLSEXT})
-
 cmake_minimum_required(VERSION 3.18)
 
 project(volsurfs VERSION 1.0 LANGUAGES CXX CUDA)
@@ -10,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)      # needed for STATIC + shared ext
 
 enable_language(CUDA)
 
@@ -33,6 +30,11 @@ if (TorchPath STREQUAL "")
 endif()
 list(APPEND CMAKE_PREFIX_PATH "${TorchPath}")
 find_package(Torch REQUIRED)
+
+find_library(TORCH_PYTHON_LIBRARY torch_python PATHS "${TorchPath}/lib")
+if (NOT TORCH_PYTHON_LIBRARY)
+  message(FATAL_ERROR "torch_python not found.")
+endif()
 
 execute_process(
   COMMAND python -c "import torch; print(torch._C._GLIBCXX_USE_CXX11_ABI)"
@@ -92,22 +94,20 @@ target_include_directories(volsurfs_cu PRIVATE
 target_link_libraries(volsurfs_cu PRIVATE ${TORCH_LIBRARIES} ${CUDA_LIBRARIES})
 
 ### ──────────────── Pybind11 Module ────────────────
-pybind11_add_module(volsurfs src/PyBridge.cxx)
-target_include_directories(volsurfs PRIVATE
+pybind11_add_module(_volsurfs src/PyBridge.cxx)
+target_include_directories(_volsurfs PRIVATE
   ${CMAKE_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/kernels
   ${EIGEN3_INCLUDE_DIR}
   ${CUDA_INCLUDE_DIRS}
   ${TORCH_INCLUDE_DIRS}
 )
-target_compile_definitions(volsurfs PRIVATE
+target_compile_definitions(_volsurfs PRIVATE
   $<$<BOOL:${TORCH_USES_CXX11_ABI}>:_GLIBCXX_USE_CXX11_ABI=1>
   $<$<NOT:$<BOOL:${TORCH_USES_CXX11_ABI}>>:_GLIBCXX_USE_CXX11_ABI=0>
 )
-target_link_libraries(volsurfs PRIVATE volsurfs_cu)
 
-find_library(TORCH_PYTHON_LIBRARY torch_python PATHS "${TorchPath}/lib")
-if (NOT TORCH_PYTHON_LIBRARY)
-  message(FATAL_ERROR "torch_python not found.")
-endif()
-target_link_libraries(volsurfs PRIVATE ${TORCH_PYTHON_LIBRARY})
+target_link_libraries(_volsurfs PRIVATE
+  volsurfs_cu          # kernels
+  ${TORCH_PYTHON_LIBRARY}
+)

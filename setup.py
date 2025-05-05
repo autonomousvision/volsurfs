@@ -121,7 +121,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     packages=find_packages(include=["volsurfs", "volsurfs.*"]),
-    ext_modules=[CMakeExtension("volsurfs_cpp")],
+    ext_modules=[CMakeExtension("volsurfs._volsurfs")],
     cmdclass={"build_ext": CMakeBuild},
     install_requires=[
         "torch>=2.1",

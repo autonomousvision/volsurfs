@@ -47,7 +47,7 @@ pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation
 cd ../..
 # finally, compile and install volsurfs
 pip install ninja
-pip install . --no-build-isolation
+pip install -e . --no-build-isolation
 ```
 
 ## Datasets

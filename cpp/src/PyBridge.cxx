@@ -16,7 +16,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(volsurfs, m)
+PYBIND11_MODULE(_volsurfs, m)
 {
     // py::class_<Sphere>(m, "Sphere")
     //     .def(py::init<const float, const Eigen::Vector3f>())
