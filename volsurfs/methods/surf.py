@@ -24,6 +24,7 @@ from volsurfs.methods.base_method import BaseMethod
 from volsurfs.utils.raycasting import intersect_bounding_primitive
 from volsurfs.utils.background import render_contracted_bg
 from volsurfs.utils.sphere_tracing import sphere_trace
+
 # from mvdatasets.geometry.primitives.bounding_sphere import BoundingSphere
 from volsurfs.utils.fields_utils import get_field_gradients, get_sdf_curvature
 from volsurfs.utils.logistic_distribution import logistic_distribution_stdev

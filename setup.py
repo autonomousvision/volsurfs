@@ -12,7 +12,9 @@ _src_path = os.path.abspath(os.path.dirname(__file__))
 
 
 def get_pybind11_include():
-    PYBIND11_WEB_URL = "https://github.com/pybind/pybind11/archive/refs/tags/v2.11.0.tar.gz"
+    PYBIND11_WEB_URL = (
+        "https://github.com/pybind/pybind11/archive/refs/tags/v2.11.0.tar.gz"
+    )
     TMP_PYBIND11_FILE = "tmp_pybind11.tar.gz"
     PYBIND11_DIRNAME = "pybind11-2.11.0"
 
@@ -24,16 +26,16 @@ def get_pybind11_include():
         req = urllib.request.Request(
             PYBIND11_WEB_URL,
             data=None,
-            headers={
-                "User-Agent": "Mozilla/5.0"
-            },
+            headers={"User-Agent": "Mozilla/5.0"},
         )
 
         ext_dir = os.path.join(_src_path, "cpp/third_party")
         os.makedirs(ext_dir, exist_ok=True)
 
         pybind11_archive_path = os.path.join(ext_dir, TMP_PYBIND11_FILE)
-        with urllib.request.urlopen(req) as resp, open(pybind11_archive_path, "wb") as file:
+        with urllib.request.urlopen(req) as resp, open(
+            pybind11_archive_path, "wb"
+        ) as file:
             file.write(resp.read())
 
         with tarfile.open(pybind11_archive_path) as tar:
@@ -41,8 +43,8 @@ def get_pybind11_include():
 
         os.remove(pybind11_archive_path)
         return target_dir
-            
-                        
+
+
 def get_eigen_include():
     EIGEN_WEB_URL = (
         "https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2"
@@ -58,16 +60,16 @@ def get_eigen_include():
         req = urllib.request.Request(
             EIGEN_WEB_URL,
             data=None,
-            headers={
-                "User-Agent": "Mozilla/5.0"
-            },
+            headers={"User-Agent": "Mozilla/5.0"},
         )
 
         ext_dir = os.path.join(_src_path, "cpp/third_party")
         os.makedirs(ext_dir, exist_ok=True)
 
         eigen_archive_path = os.path.join(ext_dir, TMP_EIGEN_FILE)
-        with urllib.request.urlopen(req) as resp, open(eigen_archive_path, "wb") as file:
+        with urllib.request.urlopen(req) as resp, open(
+            eigen_archive_path, "wb"
+        ) as file:
             file.write(resp.read())
 
         with tarfile.open(eigen_archive_path) as tar:
@@ -97,7 +99,9 @@ class CMakeBuild(build_ext):
         os.makedirs(build_dir, exist_ok=True)
 
         if shutil.which("ninja") is None:
-            raise RuntimeError("Ninja is not installed or not in PATH. Please install ninja-build.")
+            raise RuntimeError(
+                "Ninja is not installed or not in PATH. Please install ninja-build."
+            )
 
         cmake_args = [
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
@@ -108,7 +112,9 @@ class CMakeBuild(build_ext):
         build_args = ["--", "-j4"]
 
         # Use Ninja generator
-        subprocess.check_call(["cmake", ext.sourcedir, "-G", "Ninja"] + cmake_args, cwd=build_dir)
+        subprocess.check_call(
+            ["cmake", ext.sourcedir, "-G", "Ninja"] + cmake_args, cwd=build_dir
+        )
         subprocess.check_call(["cmake", "--build", "."] + build_args, cwd=build_dir)
 
 
@@ -133,7 +139,7 @@ setup(
         "pymeshlab==2023.12.post2",
         "xatlas==0.0.9",
         "trimesh==4.6.0",
-        "gdown"
+        "gdown",
     ],
     python_requires=">=3.8",
     zip_safe=False,

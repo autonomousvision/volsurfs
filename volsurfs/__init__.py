@@ -1,4 +1,5 @@
 import importlib
+
 _ext = importlib.import_module("volsurfs._volsurfs")
 
 from volsurfs._volsurfs import OccupancyGrid
