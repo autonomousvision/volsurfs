@@ -22,91 +22,123 @@
   <img src="imgs/teaser.png" width="650"/>
 </p>
 
-## Install 
+
+
+## 🛠️ Installation
 
 ```bash
-# recursive cloning
+# Clone the repository with submodules
 git clone --recursive https://github.com/autonomousvision/volsurfs
 cd volsurfs
 git submodule update --remote --merge
 
-# create environment
+# Create and activate a conda environment
 conda create -n volsurfs python=3.8 cmake=3.31
 conda activate volsurfs
-#
-# export CMAKE_PREFIX_PATH=$(python -m pybind11 --cmakedir):$CMAKE_PREFIX_PATH
-# install cuda toolkit (optional)
+
+# (Optional) Install CUDA toolkit
 conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-# install torch
-conda install pytorch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1  pytorch-cuda=11.8 -c pytorch -c nvidia
-# install requirements
+
+# Install PyTorch with CUDA support
+conda install pytorch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# Install Python dependencies
 pip install -r requirements.txt
-# install raytracelib
+
+# Install raytracelib
 cd submodules/raytracelib
 pip install -e .
 cd ../..
-# install APEX
+
+# Install NVIDIA APEX
 cd submodules/apex
-pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
+pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation \
+  --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./
 cd ../..
-# finally, compile and install volsurfs
+
+# Compile and install VolSurfs
 pip install ninja
 pip install -e . --no-build-isolation
 ```
 
-## Datasets
 
-For training and experiments we use the the [NeRF_Synthetic](scripts/download/blender.sh), [DTU](scripts/download/dtu.sh) and [Shelly](scripts/download/shelly.sh) datasets. Downloading scripts in `scripts/download` will download the each dataset in `data`. Path to data can be changed in `config/paths_config.cfg`. 
 
-```bash
-    data
-    ├── shelly
-    │   ├── khady
-    │   ├── kitten
-    │   └── ...
-    ├── dtu
-    │   ├── dtu_scan24
-    │   ├── dtu_scan37
-    │   └── ...
-    ├── blender
-    │   ├── lego
-    │   └── ...
-    └── ...
+## 📁 Datasets
+
+We use the following datasets for training and evaluation:
+
+- [NeRF-Synthetic](scripts/download/blender.sh)
+- [DTU](scripts/download/dtu.sh)
+- [Shelly](scripts/download/shelly.sh)
+
+Download scripts are located in `scripts/download/` and will place the datasets in the `data/` directory. You can configure dataset paths in `config/paths_config.cfg`.
+
+Example directory structure:
+```
+data/
+├── shelly/
+│   ├── khady/
+│   ├── kitten/
+│   └── ...
+├── dtu/
+│   ├── dtu_scan24/
+│   ├── dtu_scan37/
+│   └── ...
+├── blender/
+│   ├── lego/
+│   └── ...
+└── ...
 ```
 
-## Reproduce results
 
-To reproduce paper results (5-Mesh) on [Shelly](scripts/download/shelly.sh), run the `scripts/train_all_shelly.sh` script. Results will be in `runs`. [Wandb](https://wandb.ai/) logging is active by default, you can toggle it in `config/train_config.cfg`.
 
-## License
+## 📈 Reproducing Results
 
-This project is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0). See the [LICENSE](LICENSE) file for details.
+To reproduce the main results (5-Mesh) on the **Shelly** dataset, run:
 
-You are free to use, modify, and distribute this code as long as you provide proper attribution to the original author(s).
+```bash
+bash scripts/train_all_shelly.sh
+```
 
-## Citation
+Results will be saved in the `runs/` directory. By default, [Weights & Biases](https://wandb.ai/) logging is enabled; you can disable it in `config/train_config.cfg`.
 
-If you use this library for your research, please consider citing:
+
+
+## 📜 License
+
+This project is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)**.  
+See the [LICENSE](LICENSE) file for details.
+
+You are free to use, modify, and distribute this code as long as you provide proper attribution to the original authors.
+
+
+
+## 📚 Citation
+
+If you use this work in your research, please consider citing:
 
 ```bibtex
 @inproceedings{Esposito2025VolSurfs,
   author    = {Esposito, Stefano and Chen, Anpei and Reiser, Christian and Rota Bulò, Samuel and Porzi, Lorenzo and Schwarz, Katja and Richardt, Christian and Zollhoefer, Michael and Kontschieder, Peter and Geiger, Andreas},
   title     = {Volumetric Surfaces: Representing Fuzzy Geometries with Layered Meshes},
   booktitle = {IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2025}
+  year      = {2025}
 }
 ```
 
 ```bibtex
 @misc{Esposito2025MVD,
-  author       = {Esposito, Stefano and Geiger, Andreas},
-  title        = {MVDatasets: Standardized DataLoaders for 3D Computer Vision},
-  year         = {2025},
-  url          = {https://github.com/autonomousvision/mvdatasets},
-  note         = {GitHub repository}
+  author = {Esposito, Stefano and Geiger, Andreas},
+  title  = {MVDatasets: Standardized DataLoaders for 3D Computer Vision},
+  year   = {2025},
+  url    = {https://github.com/autonomousvision/mvdatasets},
+  note   = {GitHub repository}
 }
 ```
 
-## Acknowledgement
 
-This repo is based on [Radu Alexandru Rosu](https://radualexandru.github.io/)'s [permuto_sdf](https://github.com/RaduAlexandru/permuto_sdf). We thank him for his amazing work.
+
+## 🙏 Acknowledgements
+
+This repository builds upon [Radu Alexandru Rosu](https://radualexandru.github.io/)'s excellent project [permuto_sdf](https://github.com/RaduAlexandru/permuto_sdf).  
+We thank him for sharing his work and providing a strong foundation.
