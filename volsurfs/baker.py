@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# python ./volsurfs_py/baker.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default --run_id 2023-09-07-151930 --nr_meshes_to_extract 1
+# python ./volsurfs/baker.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default --run_id 2023-09-07-151930 --nr_meshes_to_extract 1
 
 from rich import print
 import torch
@@ -40,7 +40,7 @@ from volsurfs.utils.volsurfs_utils import (
     init_bounding_primitive,
 )
 
-# from volsurfs_py.models.colorcal import Colorcal
+# from volsurfs.models.colorcal import Colorcal
 # mvdatasets imports
 from mvdatasets.utils.images import save_numpy_as_png
 from mvdatasets.utils.profiler import Profiler

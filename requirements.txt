@@ -1,4 +1,3 @@
 git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 submodules/mvdatasets
 submodules/permutohedral_encoding
-submodules/raytracelib

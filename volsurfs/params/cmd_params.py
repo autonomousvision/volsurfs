@@ -2,10 +2,10 @@ import os
 import volsurfs
 from volsurfs.params.params import Params
 
-
 class CmdParams(Params):
 
-    root = os.path.dirname(os.path.abspath(volsurfs.__file__))
+    # use launching pwd as root
+    root = os.getcwd()
     paths_config = os.path.join(root, "config", "paths_config.cfg")
 
     def __init__(self, args_dict):

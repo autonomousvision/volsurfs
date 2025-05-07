@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# python ./volsurfs_py/visualizer.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default --run_id 2023-09-07-151930
+# python ./volsurfs/visualizer.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default --run_id 2023-09-07-151930
 
 from rich import print
 import torch

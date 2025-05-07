@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# python ./volsurfs_py/trainer.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default [--run_id 2023-09-07-151930] [--train] [--eval_test] [--eval_train] [--bg_color white]
+# python ./volsurfs/trainer.py --method_name surf --dataset dtu --scene dtu_scan24 --exp_name default [--run_id 2023-09-07-151930] [--train] [--eval_test] [--eval_train] [--bg_color white]
 
 from rich import print
 import matplotlib.pyplot as plt
@@ -39,7 +39,7 @@ from volsurfs.utils.training import (
 from volsurfs.utils.evaluation import render_and_eval
 from volsurfs.utils.rendering import render_from_camera
 
-# from volsurfs_py.models.colorcal import Colorcal
+# from volsurfs.models.colorcal import Colorcal
 # mvdatasets imports
 from mvdatasets.utils.profiler import Profiler
 from mvdatasets.utils.tensor_reel import TensorReel

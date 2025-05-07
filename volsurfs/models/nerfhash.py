@@ -4,7 +4,7 @@ import torch
 from volsurfs.models.mlp import MLP
 from volsurfs.utils.encoder import get_encoder
 
-# from volsurfs_py.utils.common_utils import map_range_val
+# from volsurfs.utils.common_utils import map_range_val
 import permutohedral_encoding as permuto_enc
 
 

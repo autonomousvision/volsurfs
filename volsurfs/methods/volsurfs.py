@@ -11,19 +11,19 @@ from volsurfs.models.color_sh import ColorSH
 from volsurfs.models.rgb import RGB
 from volsurfs.models.sh_neural_textures import SHNeuralTextures
 
-# from volsurfs_py.models.nerfhash import NerfHash
+# from volsurfs.models.nerfhash import NerfHash
 from volsurfs.utils.losses import loss_l1
 from volsurfs.methods.base_method import BaseMethod
 from volsurfs.utils.background import render_contracted_bg
 from volsurfs.models.nerfhash import NerfHash
 
-# from volsurfs_py.utils.sampling import create_uncontracted_bg_samples
-# from volsurfs_py.utils.background import render_contracted_bg
+# from volsurfs.utils.sampling import create_uncontracted_bg_samples
+# from volsurfs.utils.background import render_contracted_bg
 from volsurfs.utils.raycasting import intersect_bounding_primitive, reflect_rays
 from volsurfs.utils.background import render_contracted_bg
 from volsurfs.utils.mesh_loaders import load_meshes_indexed_from_path
 from mvdatasets.utils.tensor_mesh import TensorMesh
-from mvdatasets.utils.mesh import Mesh
+# from mvdatasets.utils.mesh import Mesh
 from raytracelib import RayTracer
 
 

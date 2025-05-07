@@ -12,7 +12,7 @@ from volsurfs.schedulers.warmup import GradualWarmupScheduler
 from volsurfs.volume_rendering.volume_rendering_modules import VolumeRenderingNeuS
 from volsurfs.models.sdf import SDF
 
-# from volsurfs_py.models.offsets_sdf import OffsetsSDF
+# from volsurfs.models.offsets_sdf import OffsetsSDF
 from volsurfs.models.rgb import RGB
 from volsurfs.models.color_sh import ColorSH
 from volsurfs.models.nerfhash import NerfHash

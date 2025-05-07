@@ -33,7 +33,7 @@ RUN_EVALUATION=false
 REMOVE_RENDERS=false
 
 BASE="--method_name $METHOD_NAME --dataset $DATASET_NAME --scene $SCENE_NAME --exp_name $EXP_NAME"
-RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed 's/[^/]*//; s/[\{\} "]//g')
+RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed -n 's/.*"\(.*\)".*/\1/p')
 echo "RUNS_PATH: $RUNS_PATH"
 
 echo "$METHOD_NAME with config $EXP_NAME"
@@ -47,8 +47,8 @@ if [ "$RUN_TRAINING" = true ]; then
 
     echo "RUNNING TRAINING"
 
-    echo "python ./volsurfs_py/trainer.py $BASE"
-    python ./volsurfs_py/trainer.py $BASE --train $EVAL_ARGS --keep_last_checkpoint_only
+    echo "python ./volsurfs/trainer.py $BASE"
+    python ./volsurfs/trainer.py $BASE --train $EVAL_ARGS --keep_last_checkpoint_only
 
 fi
 
@@ -113,5 +113,5 @@ if [ "$RUN_EVALUATION" = true ]; then
         echo "RUN_ID: $RUN_ID"
     fi
 
-    python ./volsurfs_py/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
+    python ./volsurfs/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
 fi

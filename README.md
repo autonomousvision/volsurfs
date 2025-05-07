@@ -41,6 +41,10 @@ conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
 conda install pytorch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1  pytorch-cuda=11.8 -c pytorch -c nvidia
 # install requirements
 pip install -r requirements.txt
+# install raytracelib
+cd submodules/raytracelib
+pip install -e .
+cd ../..
 # install APEX
 cd submodules/apex
 pip install . -v --disable-pip-version-check --no-cache-dir --no-build-isolation --config-settings "--build-option=--cpp_ext" --config-settings "--build-option=--cuda_ext" ./

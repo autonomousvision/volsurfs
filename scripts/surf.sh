@@ -34,7 +34,7 @@ RUN_MESHES_EXTRACTION=false
 REMOVE_RENDERS=false
 
 BASE="--method_name $METHOD_NAME --dataset $DATASET_NAME --scene $SCENE_NAME --exp_name $EXP_NAME"
-RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed 's/[^/]*//; s/[\{\} "]//g')
+RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed -n 's/.*"\(.*\)".*/\1/p')
 echo "RUNS_PATH: $RUNS_PATH"
 
 echo "$METHOD_NAME with config $EXP_NAME"
@@ -48,8 +48,8 @@ if [ "$RUN_TRAINING" = true ]; then
 
     echo "RUNNING TRAINING"
 
-    echo "python ./volsurfs_py/trainer.py $BASE"
-    python ./volsurfs_py/trainer.py $BASE --train $EVAL_ARGS --keep_last_checkpoint_only
+    echo "python ./volsurfs/trainer.py $BASE"
+    python ./volsurfs/trainer.py $BASE --train $EVAL_ARGS --keep_last_checkpoint_only
 
 fi
 
@@ -114,7 +114,7 @@ if [ "$RUN_EVALUATION" = true ]; then
         echo "RUN_ID: $RUN_ID"
     fi
 
-    python ./volsurfs_py/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
+    python ./volsurfs/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
 fi
 
 # if $RUN_MESHES_EXTRACTION is set
@@ -139,6 +139,6 @@ if [ "$RUN_MESHES_EXTRACTION" = true ]; then
     MESH_EXTRACTION="--extract_meshes --nr_meshes_to_extract 1 --extract_bg_mesh"
     MESH_SIMPLIFICATION="--simplify_meshes --simplification_faces_ratio 0.02"
     MESH_XATLAS="--compute_meshes_xatlas"
-    python ./volsurfs_py/baker.py --method_name $METHOD_NAME --exp_name $EXP_NAME --run_id $RUN_ID $BASE $MESH_EXTRACTION $MESH_SIMPLIFICATION $MESH_XATLAS
+    python ./volsurfs/baker.py --method_name $METHOD_NAME --exp_name $EXP_NAME --run_id $RUN_ID $BASE $MESH_EXTRACTION $MESH_SIMPLIFICATION $MESH_XATLAS
 
 fi

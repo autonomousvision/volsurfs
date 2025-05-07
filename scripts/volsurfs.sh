@@ -39,7 +39,7 @@ RUN_TEXTURES_EXTRACTION=true
 REMOVE_RENDERS=false
 
 BASE="--method_name $METHOD_NAME --dataset $DATASET_NAME --scene $SCENE_NAME --exp_name $EXP_NAME"
-RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed 's/[^/]*//; s/[\{\} "]//g')
+RUNS_PATH=$(grep 'runs:' config/paths_config.cfg | sed -n 's/.*"\(.*\)".*/\1/p')
 echo "RUNS_PATH: $RUNS_PATH"
 
 export WANDB__SERVICE_WAIT=300
@@ -97,8 +97,8 @@ if [ "$RUN_TRAINING" = true ]; then
 
     echo "$METHOD_NAME with config $EXP_NAME, [$MESHES_PATH]"
 
-    echo "python ./volsurfs_py/trainer.py $BASE $MESHES_PATH"
-    python ./volsurfs_py/trainer.py $BASE $MODELS_PATH $MESHES_PATH --train $EVAL_ARGS --keep_last_checkpoint_only
+    echo "python ./volsurfs/trainer.py $BASE $MESHES_PATH"
+    python ./volsurfs/trainer.py $BASE $MODELS_PATH $MESHES_PATH --train $EVAL_ARGS --keep_last_checkpoint_only
 fi
 
 if [ "$REMOVE_RENDERS" = true ]; then
@@ -162,7 +162,7 @@ if [ "$RUN_EVALUATION" = true ]; then
         echo "RUN_ID: $RUN_ID"
     fi
 
-    python ./volsurfs_py/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
+    python ./volsurfs/trainer.py $BASE $EVAL_ARGS --run_id $RUN_ID
 fi
 
 # if $RUN_TEXTURES_EXTRACTION is set
@@ -186,5 +186,5 @@ if [ "$RUN_TEXTURES_EXTRACTION" = true ]; then
 
     # extract textures
     TEXTURES_EXTRACTION="--extract_textures"
-    python ./volsurfs_py/baker.py --method_name $METHOD_NAME --exp_name $EXP_NAME --run_id $RUN_ID $BASE $TEXTURES_EXTRACTION
+    python ./volsurfs/baker.py --method_name $METHOD_NAME --exp_name $EXP_NAME --run_id $RUN_ID $BASE $TEXTURES_EXTRACTION
 fi

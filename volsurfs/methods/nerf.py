@@ -17,7 +17,7 @@ from volsurfs.models.color_sh import ColorSH
 from volsurfs.models.nerfhash import NerfHash
 from volsurfs.utils.nerf_utils import get_rays_samples_packed_nerf
 
-# from volsurfs_py.utils.debug import sanity_check
+# from volsurfs.utils.debug import sanity_check
 from volsurfs.utils.losses import loss_l1, sparsity_loss
 from volsurfs.methods.base_method import BaseMethod
 from volsurfs.utils.raycasting import intersect_bounding_primitive
