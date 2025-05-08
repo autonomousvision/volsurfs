@@ -2,7 +2,7 @@
 
 ### Representing Fuzzy Geometries with Layered Meshes
 
-### [Project Page](https://s-esposito.github.io/) | [Paper](#) | [Web Demo](https://s-esposito.github.io/volsurfs/viewer/)
+### [Project Page](https://autonomousvision.github.io/volsurfs/) | [Paper](https://arxiv.org/pdf/2409.02482) | [Web Demo](https://autonomousvision.github.io/volsurfs/viewer/)
 
 
 [Stefano Esposito](https://s-esposito.github.io/)<sup>1</sup>,
