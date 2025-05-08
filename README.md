@@ -53,7 +53,7 @@ pip install -e .
 
 ## Datasets
 
-For training and experiments we use the the [NeRF_Synthetic](scripts/download/blender.sh), [DTU](scripts/download/dtu.sh) and [Shelly](scripts/download/shelly.sh) datasets. Downloading scripts in `scripts/download` will download the each dataset in `data`. Path to data can be changed in `config/paths_config.cfg`. 
+For training and experiments we use the [NeRF_Synthetic](scripts/download/blender.sh), [DTU](scripts/download/dtu.sh) and [Shelly](scripts/download/shelly.sh) datasets. Downloading scripts in `scripts/download` will download each dataset in `data`. Path to data can be changed in `config/paths_config.cfg`. 
 
 ```bash
     data
